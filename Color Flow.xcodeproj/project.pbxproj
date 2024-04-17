@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EA20CF4B2BCEE37500CF6A6B /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */; };
+		EA5E30CD29E1A8C00025BDBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */; };
+		EA5E30CF29E1A8C00025BDBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */; };
+		EA5E30D129E1A8C00025BDBB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30D029E1A8C00025BDBB /* ViewController.swift */; };
+		EA5E30D429E1A8C00025BDBB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA5E30D229E1A8C00025BDBB /* Main.storyboard */; };
+		EA5E30D629E1A8C10025BDBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA5E30D529E1A8C10025BDBB /* Assets.xcassets */; };
+		EA5E30D929E1A8C10025BDBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA5E30D729E1A8C10025BDBB /* LaunchScreen.storyboard */; };
+		EAAE186F2BC54DED00D8B292 /* GameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE186E2BC54DED00D8B292 /* GameArea.swift */; };
+		EAAE18712BC54E1300D8B292 /* GameArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAAE18702BC54E1300D8B292 /* GameArea.storyboard */; };
+		EAF28E1C2BC961F1002A8BD0 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */; };
+		EAF28E1E2BC9632C002A8BD0 /* LoadGameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */; };
+		EAF28E202BC96B00002A8BD0 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */; };
+		EAFB65D12BC9503100F740EF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EAFB65D02BC9503100F740EF /* SnapKit */; };
+		EAFB65D32BC9503100F740EF /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = EAFB65D22BC9503100F740EF /* SnapKit-Dynamic */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
+		EA5E30C929E1A8C00025BDBB /* Color Flow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Flow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		EA5E30D029E1A8C00025BDBB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EA5E30D329E1A8C00025BDBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EA5E30D529E1A8C10025BDBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EA5E30D829E1A8C10025BDBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EA5E30DA29E1A8C10025BDBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAAE186E2BC54DED00D8B292 /* GameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameArea.swift; sourceTree = "<group>"; };
+		EAAE18702BC54E1300D8B292 /* GameArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameArea.storyboard; sourceTree = "<group>"; };
+		EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
+		EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGameArea.swift; sourceTree = "<group>"; };
+		EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EA5E30C629E1A8C00025BDBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EAFB65D12BC9503100F740EF /* SnapKit in Frameworks */,
+				EAFB65D32BC9503100F740EF /* SnapKit-Dynamic in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EA20CF4C2BD03BA500CF6A6B /* trash */ = {
+			isa = PBXGroup;
+			children = (
+				EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */,
+				EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */,
+			);
+			path = trash;
+			sourceTree = "<group>";
+		};
+		EA5E30C029E1A8C00025BDBB = {
+			isa = PBXGroup;
+			children = (
+				EA5E30CB29E1A8C00025BDBB /* Color Flow */,
+				EA5E30CA29E1A8C00025BDBB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EA5E30CA29E1A8C00025BDBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA5E30C929E1A8C00025BDBB /* Color Flow.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA5E30CB29E1A8C00025BDBB /* Color Flow */ = {
+			isa = PBXGroup;
+			children = (
+				EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */,
+				EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */,
+				EA5E30D029E1A8C00025BDBB /* ViewController.swift */,
+				EA5E30D229E1A8C00025BDBB /* Main.storyboard */,
+				EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */,
+				EAAE186E2BC54DED00D8B292 /* GameArea.swift */,
+				EAAE18702BC54E1300D8B292 /* GameArea.storyboard */,
+				EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */,
+				EA5E30D529E1A8C10025BDBB /* Assets.xcassets */,
+				EA5E30D729E1A8C10025BDBB /* LaunchScreen.storyboard */,
+				EA5E30DA29E1A8C10025BDBB /* Info.plist */,
+				EA20CF4C2BD03BA500CF6A6B /* trash */,
+			);
+			path = "Color Flow";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EA5E30C829E1A8C00025BDBB /* Color Flow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA5E30DD29E1A8C10025BDBB /* Build configuration list for PBXNativeTarget "Color Flow" */;
+			buildPhases = (
+				EA5E30C529E1A8C00025BDBB /* Sources */,
+				EA5E30C629E1A8C00025BDBB /* Frameworks */,
+				EA5E30C729E1A8C00025BDBB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Color Flow";
+			packageProductDependencies = (
+				EAFB65D02BC9503100F740EF /* SnapKit */,
+				EAFB65D22BC9503100F740EF /* SnapKit-Dynamic */,
+			);
+			productName = "Color Flow";
+			productReference = EA5E30C929E1A8C00025BDBB /* Color Flow.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EA5E30C129E1A8C00025BDBB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					EA5E30C829E1A8C00025BDBB = {
+						CreatedOnToolsVersion = 14.3;
+					};
+				};
+			};
+			buildConfigurationList = EA5E30C429E1A8C00025BDBB /* Build configuration list for PBXProject "Color Flow" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EA5E30C029E1A8C00025BDBB;
+			packageReferences = (
+				EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
+			productRefGroup = EA5E30CA29E1A8C00025BDBB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EA5E30C829E1A8C00025BDBB /* Color Flow */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EA5E30C729E1A8C00025BDBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5E30D929E1A8C10025BDBB /* LaunchScreen.storyboard in Resources */,
+				EAAE18712BC54E1300D8B292 /* GameArea.storyboard in Resources */,
+				EA5E30D629E1A8C10025BDBB /* Assets.xcassets in Resources */,
+				EA5E30D429E1A8C00025BDBB /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EA5E30C529E1A8C00025BDBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA20CF4B2BCEE37500CF6A6B /* TestClass.swift in Sources */,
+				EAAE186F2BC54DED00D8B292 /* GameArea.swift in Sources */,
+				EA5E30D129E1A8C00025BDBB /* ViewController.swift in Sources */,
+				EAF28E1E2BC9632C002A8BD0 /* LoadGameArea.swift in Sources */,
+				EA5E30CD29E1A8C00025BDBB /* AppDelegate.swift in Sources */,
+				EAF28E1C2BC961F1002A8BD0 /* GameLogic.swift in Sources */,
+				EA5E30CF29E1A8C00025BDBB /* SceneDelegate.swift in Sources */,
+				EAF28E202BC96B00002A8BD0 /* GameCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EA5E30D229E1A8C00025BDBB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA5E30D329E1A8C00025BDBB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EA5E30D729E1A8C10025BDBB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA5E30D829E1A8C10025BDBB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EA5E30DB29E1A8C10025BDBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EA5E30DC29E1A8C10025BDBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EA5E30DE29E1A8C10025BDBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 532T45L6HD;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Color Flow/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "example.Color-Flow";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EA5E30DF29E1A8C10025BDBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 532T45L6HD;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Color Flow/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "example.Color-Flow";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EA5E30C429E1A8C00025BDBB /* Build configuration list for PBXProject "Color Flow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5E30DB29E1A8C10025BDBB /* Debug */,
+				EA5E30DC29E1A8C10025BDBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA5E30DD29E1A8C10025BDBB /* Build configuration list for PBXNativeTarget "Color Flow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5E30DE29E1A8C10025BDBB /* Debug */,
+				EA5E30DF29E1A8C10025BDBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EAFB65D02BC9503100F740EF /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		EAFB65D22BC9503100F740EF /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = EA5E30C129E1A8C00025BDBB /* Project object */;
+}
