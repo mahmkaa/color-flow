@@ -36,14 +36,37 @@ class GameArea: UIViewController {
     }
     
     func setupUI(){
-        let background: UIImageView = {
-            let imageView = UIImageView(image: UIImage(named: "nightSky"))
-            imageView.contentMode = .scaleAspectFill
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            return imageView
-        }()
+        let frameCount = 26
+        var frames = [UIImage]()
+        
+        for index in 1...frameCount {
+            let frameName = "backGif\(index)"
+            if let image = UIImage(named: frameName) {
+                frames.append(image)
+            } else {
+                print("Не удалось загрузить изображение: \(frameName)")
+            }
+        }
+        
+        let background = UIImageView()
+        background.frame = view.bounds
+        background.contentMode = .scaleAspectFill
         view.addSubview(background)
         view.sendSubviewToBack(background)
+        
+        background.animationImages = frames
+        background.animationDuration = 3
+        background.animationRepeatCount = 0
+        background.startAnimating()
+        
+//        let background: UIImageView = {
+//            let imageView = UIImageView(image: UIImage(named: "nightSky"))
+//            imageView.contentMode = .scaleAspectFill
+//            imageView.translatesAutoresizingMaskIntoConstraints = false
+//            return imageView
+//        }()
+//        view.addSubview(background)
+//        view.sendSubviewToBack(background)
         
         
         let exitButton = exit
@@ -76,7 +99,7 @@ class GameArea: UIViewController {
         stackView.distribution = .fillEqually
         view.addSubview(stackView)
         
-        let colors = ["violet", "pink", "orange", "yellow", "green", "lime"]
+        let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
         
         for colorName in colors {
             let button = UIButton(type: .custom)
@@ -133,7 +156,7 @@ class GameArea: UIViewController {
                 let cell = UIView()
                 cell.backgroundColor = UIColor(named: colorName)
                 cell.layer.borderWidth = 1.0
-                cell.layer.borderColor = UIColor.black.cgColor
+                cell.layer.borderColor = UIColor.white.cgColor
                 rowStack.addArrangedSubview(cell)
                 
                 cell.snp.makeConstraints { make in
@@ -177,7 +200,7 @@ class GameArea: UIViewController {
     
     @objc func colorButtonTap(_ sender: UIButton) {
         let colorIndex = sender.tag
-        let colorName = ["violet", "pink", "orange", "yellow", "green", "lime"][colorIndex]
+        let colorName = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"][colorIndex]
         print("Color button tapped: \(colorName)")
     }
 }

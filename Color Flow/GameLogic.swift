@@ -8,7 +8,7 @@
 import Foundation
 
 class GameLogic {
-    let colors = ["violet", "pink", "orange", "yellow", "green", "lime"]
+    let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
     
     func fillGridRandomly(gridSize: Int) -> [[String]] {
         var grid = [[String]]()

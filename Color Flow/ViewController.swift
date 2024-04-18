@@ -6,12 +6,15 @@
 //
 
 import UIKit
+//import AVFoundation
 import SnapKit
 
 class ViewController: UIViewController {
     //size settings
     var gridSize: Int = 0
     var cellSize: CGFloat = 0.0
+    
+//    var player: AVPlayer?
     
     //buttons
     let pve = UIButton(type: .system)
@@ -31,13 +34,54 @@ class ViewController: UIViewController {
 
     func setupUI() {
         //background
-        let background: UIImageView = {
-            let imageView = UIImageView(image: UIImage(named: "nightSky"))
-            imageView.contentMode = .scaleAspectFill
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            return imageView
-        }()
+        //MARK: - фон через изображение
+//        let background: UIImageView = {
+//            let imageView = UIImageView(image: UIImage(named: "nightSky"))
+//            imageView.contentMode = .scaleAspectFill
+//            imageView.translatesAutoresizingMaskIntoConstraints = false
+//            return imageView
+//        }()
+        
+        //MARK: - использование гиф файла (работает)
+        let frameCount = 26
+        var frames = [UIImage]()
+        
+        for index in 1...frameCount {
+            let frameName = "backGif\(index)"
+            if let image = UIImage(named: frameName) {
+                frames.append(image)
+            } else {
+                print("Не удалось загрузить изображение: \(frameName)")
+            }
+        }
+        
+        let background = UIImageView()
+        background.frame = view.bounds
+        background.contentMode = .scaleAspectFill
         view.addSubview(background)
+        
+        background.animationImages = frames
+        background.animationDuration = 3
+        background.animationRepeatCount = 0
+        background.startAnimating()
+        
+        //        let background = UIImageView()
+        //        background.contentMode = .scaleAspectFill
+        //        view.addSubview(background)
+        //
+        //        let gifImage = UIImage(named: "back1.gif")
+        //        background.image = gifImage
+        
+        //MARK: - фон через видео
+//        let videoURL = Bundle.main.url(forResource: "backWater", withExtension: "mp4")!
+//        player = AVPlayer(url: videoURL)
+//        
+//        let playerLayer = AVPlayerLayer(player: player)
+//        playerLayer.videoGravity = .resizeAspectFill
+//        playerLayer.frame = view.bounds
+//        view.layer.addSublayer(playerLayer)
+//        
+//        player?.play()
         
         //кнопка пве
         let pveButton = pve
