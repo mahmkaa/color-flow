@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class GameArea: UIViewController {
+    var grid = [[String]]()
     let gameLogic = GameLogic()
     
     let exit = UIButton(type: .system)
@@ -24,7 +25,7 @@ class GameArea: UIViewController {
         super.viewDidLoad()
         setupGrid()
         setupUI()
-
+        
         
         let swipeExit = UIPinchGestureRecognizer(target: self, action: #selector(confirmExit))
         view.addGestureRecognizer(swipeExit)
@@ -59,14 +60,14 @@ class GameArea: UIViewController {
         background.animationRepeatCount = 0
         background.startAnimating()
         
-//        let background: UIImageView = {
-//            let imageView = UIImageView(image: UIImage(named: "nightSky"))
-//            imageView.contentMode = .scaleAspectFill
-//            imageView.translatesAutoresizingMaskIntoConstraints = false
-//            return imageView
-//        }()
-//        view.addSubview(background)
-//        view.sendSubviewToBack(background)
+        //        let background: UIImageView = {
+        //            let imageView = UIImageView(image: UIImage(named: "nightSky"))
+        //            imageView.contentMode = .scaleAspectFill
+        //            imageView.translatesAutoresizingMaskIntoConstraints = false
+        //            return imageView
+        //        }()
+        //        view.addSubview(background)
+        //        view.sendSubviewToBack(background)
         
         
         let exitButton = exit
@@ -142,7 +143,7 @@ class GameArea: UIViewController {
         stackView.spacing = 0
         view.addSubview(stackView)
         
-        let grid = gameLogic.fillGridRandomly(gridSize: gridSize)
+        grid = gameLogic.fillGridRandomly(gridSize: gridSize)
         
         for row in grid {
             let rowStack = UIStackView()
@@ -155,7 +156,7 @@ class GameArea: UIViewController {
             for colorName in row {
                 let cell = UIView()
                 cell.backgroundColor = UIColor(named: colorName)
-                cell.layer.borderWidth = 1.0
+                cell.layer.borderWidth = 0
                 cell.layer.borderColor = UIColor.white.cgColor
                 rowStack.addArrangedSubview(cell)
                 
@@ -202,19 +203,28 @@ class GameArea: UIViewController {
         let colorIndex = sender.tag
         let colorName = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"][colorIndex]
         print("Color button tapped: \(colorName)")
+        
+        let startRow = 0
+        let startColumn = 0
+        
+        //        startRow = gridSize - 1
+        //        startColumn = gridSize - 1
+        
+        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName)
+            // Теперь вы можете использовать playerCellCount по своему усмотрению
     }
 }
 
 extension UIViewController {
     func animateLabelDisappearance(label: UILabel) {
         label.alpha = 1.0 // Установка альфа-канала лейбла в 1.0, чтобы он был видимым
-
+        
         let animation = CAKeyframeAnimation(keyPath: "opacity")
         animation.values = [1.0, 0.0] // Изменение значения прозрачности от 1.0 (полностью видимый) до 0.0 (полностью прозрачный)
         animation.keyTimes = [0.0, 1.0] // Временные точки, в которые изменяется значение прозрачности
         animation.duration = 2.8 // Длительность анимации изменения прозрачности в секундах
         label.layer.add(animation, forKey: "opacity") // Применение анимации к слою лейбла
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.6) {
             label.removeFromSuperview() // Удаление лейбла из иерархии представлений после завершения анимации
         }
