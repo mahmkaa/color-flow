@@ -23,6 +23,9 @@ class GameArea: UIViewController {
     var cellSize: CGFloat = 0.0
     var cells = [UIView]()
     
+    var previousPlayerColor: String?
+    var previousOpponentColor: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGrid()
@@ -224,23 +227,23 @@ class GameArea: UIViewController {
         let startColor = grid[0][0]
         // Получаем цвет клетки противника (gridSize - 1, gridSize - 1)
         let opponentColor = grid[gridSize - 1][gridSize - 1]
-        
+
         // Массив цветов кнопок, соответствующий их порядку
         let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
-        
+
         // Проходим по массиву кнопок цветов
         for (index, button) in colorButtons.enumerated() {
             // Получаем цвет кнопки по ее индексу в массиве
             let buttonColor = colors[index]
-            
-            // Если цвет кнопки совпадает с цветом начальной клетки или клетки противника
+
+            // Отключаем кнопку, если ее цвет совпадает с текущим цветом начальной клетки или противника
             if buttonColor == startColor || buttonColor == opponentColor {
-                // Делаем кнопку неактивной
                 button.isEnabled = false
-                // Изменяем фоновое изображение кнопки на "lightGrey"
                 button.setImage(UIImage(named: "lightGrey"), for: .disabled)
-                button.alpha = 1.0
-                button.backgroundColor = nil
+            } else {
+                // Активируем кнопку во всех остальных случаях
+                button.isEnabled = true
+                button.setImage(UIImage(named: buttonColor), for: .normal)
             }
         }
     }
@@ -281,12 +284,15 @@ class GameArea: UIViewController {
         //        startRow = gridSize - 1
         //        startColumn = gridSize - 1
         
+        previousPlayerColor = grid[startRow][startColumn]
+            previousOpponentColor = grid[gridSize - 1][gridSize - 1]
+        
         gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName)
         
         updateGridView()
             // Теперь вы можете использовать playerCellCount по своему усмотрению
         updateScoreLabel()
-        disableButtonsForColors()
+       disableButtonsForColors()
     }
 }
 
