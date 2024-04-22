@@ -23,6 +23,14 @@ class GameLogic {
     func fillGridRandomly(gridSize: Int) -> [[String]] {
         var grid = [[String]]()
         
+        // Инициализация списка доступных цветов
+        let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
+        
+        // Начальные клетки игрока и противника
+        var startColor: String?
+        var opponentColor: String?
+        
+        // Заполнение сетки случайными цветами
         for _ in 0..<gridSize {
             var row = [String]()
             for _ in 0..<gridSize {
@@ -31,6 +39,27 @@ class GameLogic {
                 row.append(randomColor)
             }
             grid.append(row)
+        }
+        
+        // Установка начальных цветов игрока и противника
+        startColor = grid[0][0]
+        opponentColor = grid[gridSize - 1][gridSize - 1]
+        
+        // Проверка на совпадение начальных цветов
+        while startColor == opponentColor {
+            // Если цвета совпадают, перезаполните последнюю клетку противника новым случайным цветом
+            var randomColor: String
+            
+            repeat {
+                let randomIndex = Int.random(in: 0..<colors.count)
+                randomColor = colors[randomIndex]
+            } while randomColor == startColor
+            
+            // Присваиваем новому цвету последнюю клетку противника
+            grid[gridSize - 1][gridSize - 1] = randomColor
+            
+            // Обновляем цвет противника
+            opponentColor = randomColor
         }
         
         return grid
@@ -75,6 +104,9 @@ class GameLogic {
         // Получаем текущий цвет клетки, которую выбрал игрок
         let targetColor = grid[row][column]
         
+        // Выводим цвет стартовой клетки для проверки
+        print("Цвет стартовой клетки: \(targetColor)")
+        
         // Получаем все связанные клетки с исходной
         let connectedCells = findConnectedCells(grid: grid, row: row, column: column)
         
@@ -84,17 +116,18 @@ class GameLogic {
         }
     }
     
-    func countPlayerCells(grid: [[String]], playerColor: String) -> Int {
-        var playerCellCount = 0
+    func countPlayerCells(grid: [[String]]) -> Int {
+        // Начальная клетка (0, 0)
+        let startRow = 0
+        let startColumn = 0
         
-        for row in grid {
-            for cell in row {
-                if cell == playerColor {
-                    playerCellCount += 1
-                }
-            }
-        }
+        // Получаем цвет начальной клетки
+        let startColor = grid[startRow][startColumn]
         
-        return playerCellCount
+        // Используем метод findConnectedCells, чтобы найти все связанные клетки
+        let connectedCells = findConnectedCells(grid: grid, row: startRow, column: startColumn)
+        
+        // Подсчитываем количество клеток, связанных с начальной клеткой
+        return connectedCells.count
     }
 }
