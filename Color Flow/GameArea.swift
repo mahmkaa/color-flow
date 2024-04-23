@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class GameArea: UIViewController {
+    var isPVP: Bool = true
+    
     var grid = [[String]]()
     let gameLogic = GameLogic()
     
@@ -18,6 +20,7 @@ class GameArea: UIViewController {
     
     let tutorialLabel = UILabel()
     let scoreLabelP1 = UILabel()
+    let scoreLabelP2 = UILabel()
     
     var gridSize: Int = 0
     var cellSize: CGFloat = 0.0
@@ -26,11 +29,16 @@ class GameArea: UIViewController {
     var previousPlayerColor: String?
     var previousOpponentColor: String?
     
+    var stackView: UIStackView!
+    var stackView1: UIStackView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGrid()
         setupUI()
+        settingGameInterface()
         
+        print("\(isPVP)")
         
         let swipeExit = UIPinchGestureRecognizer(target: self, action: #selector(confirmExit))
         view.addGestureRecognizer(swipeExit)
@@ -41,6 +49,8 @@ class GameArea: UIViewController {
         animateLabelDisappearance(label: tutorialLabel)
     }
     
+    
+    //MARK: - setupUI
     func setupUI(){
         let frameCount = 26
         var frames = [UIImage]()
@@ -97,7 +107,17 @@ class GameArea: UIViewController {
         view.addSubview(label)
         view.bringSubviewToFront(label)
         
-        let scoreLabel1 = scoreLabelP1
+        let scoreLabel = scoreLabelP1
+        scoreLabel.textColor = UIColor.white
+        scoreLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        scoreLabel.textAlignment = .center
+        scoreLabel.numberOfLines = 1
+        scoreLabel.layer.cornerRadius = 10
+        scoreLabel.clipsToBounds = true
+        view.addSubview(scoreLabel)
+        view.bringSubviewToFront(scoreLabel)
+        
+        let scoreLabel1 = scoreLabelP2
         scoreLabel1.textColor = UIColor.white
         scoreLabel1.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         scoreLabel1.textAlignment = .center
@@ -108,9 +128,10 @@ class GameArea: UIViewController {
         view.bringSubviewToFront(scoreLabel1)
         
         updateScoreLabel()
+        updateOpponentScoreLabel()
         
         //Настройка кнопок
-        let stackView = UIStackView()
+        stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 4
         stackView.alignment = .center
@@ -132,7 +153,30 @@ class GameArea: UIViewController {
             }
         }
         
-        disableButtonsForColors()
+        stackView1 = UIStackView()
+        stackView1.axis = .horizontal
+        stackView1.spacing = 4
+        stackView1.alignment = .center
+        stackView1.distribution = .fillEqually
+        view.addSubview(stackView1)
+        
+        let colors1 = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"]
+        
+        for colorName in colors1{
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(named: colorName), for: .normal)
+            button.addTarget(self, action: #selector(colorButtonTap1(_:)), for: .touchUpInside)
+            button.tag = colors1.firstIndex(of: colorName) ?? 0
+            stackView1.addArrangedSubview(button)
+            colorButtons.append(button)
+            
+            button.snp.makeConstraints { make in
+                make.width.height.equalTo(60)
+            }
+        }
+        
+        disableButtonsForColors(playerButtons: stackView.arrangedSubviews as! [UIButton], opponentButtons: stackView1.arrangedSubviews as! [UIButton])
+        
         
         background.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -157,12 +201,28 @@ class GameArea: UIViewController {
             make.bottom.equalTo(stackView.snp.top).offset(-30)
         }
         
+        scoreLabelP2.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.width.equalTo(100)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(stackView1.snp.bottom).offset(30)
+            
+        }
+        
+        scoreLabelP2.transform = CGAffineTransform(scaleX: -1, y: -1)
+        
         stackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-70)
         }
+        
+        stackView1.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(70)
+        }
     }
     
+    //MARK: - setupGrid
     func setupGrid() {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -200,6 +260,7 @@ class GameArea: UIViewController {
         }
     }
     
+    //MARK: - updateGridView
     func updateGridView() {
         // Проходим по всем клеткам сетки
         for (index, cell) in cells.enumerated() {
@@ -221,8 +282,14 @@ class GameArea: UIViewController {
         scoreLabelP1.text = "Счет: \(playerCellCount)"
     }
     
+    func updateOpponentScoreLabel() {
+        let playerCellCount = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
+        
+        scoreLabelP2.text = "Счет: \(playerCellCount)"
+    }
     
-    func disableButtonsForColors() {
+    //MARK: - disableButtons
+    func disableButtonsForColors(playerButtons: [UIButton], opponentButtons: [UIButton]) {
         // Получаем цвет начальной клетки (0, 0)
         let startColor = grid[0][0]
         // Получаем цвет клетки противника (gridSize - 1, gridSize - 1)
@@ -231,24 +298,40 @@ class GameArea: UIViewController {
         // Массив цветов кнопок, соответствующий их порядку
         let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
 
-        // Проходим по массиву кнопок цветов
-        for (index, button) in colorButtons.enumerated() {
-            // Получаем цвет кнопки по ее индексу в массиве
+        // Обработка кнопок игрока
+        for (index, button) in playerButtons.enumerated() {
             let buttonColor = colors[index]
+            button.isEnabled = buttonColor != startColor && buttonColor != opponentColor
+            button.setImage(UIImage(named: button.isEnabled ? buttonColor : "lightGrey"), for: .disabled)
+        }
 
-            // Отключаем кнопку, если ее цвет совпадает с текущим цветом начальной клетки или противника
-            if buttonColor == startColor || buttonColor == opponentColor {
-                button.isEnabled = false
-                button.setImage(UIImage(named: "lightGrey"), for: .disabled)
-            } else {
-                // Активируем кнопку во всех остальных случаях
-                button.isEnabled = true
-                button.setImage(UIImage(named: buttonColor), for: .normal)
-            }
+        // Обработка кнопок противника
+        for (index, button) in opponentButtons.enumerated() {
+            let buttonColor = colors.reversed()[index]
+            button.isEnabled = buttonColor != opponentColor && buttonColor != startColor
+            button.setImage(UIImage(named: button.isEnabled ? buttonColor : "lightGrey"), for: .disabled)
         }
     }
     
-    //selectors
+    //MARK: - settingGameInterface
+    func settingGameInterface() {
+        func disableButtonStack(_ buttons: [UIButton]){
+            for button in buttons {
+                button.isEnabled = false
+                button.alpha = 0.5
+            }
+        }
+        
+        if isPVP {
+            scoreLabelP2.isHidden = false
+        } else {
+            scoreLabelP2.isHidden = true
+            disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
+            view.bringSubviewToFront(stackView1)
+        }
+    }
+    
+    //MARK: - selectors
     @objc func tapTestButton() {
         print("Button tapped")
     }
@@ -285,14 +368,41 @@ class GameArea: UIViewController {
         //        startColumn = gridSize - 1
         
         previousPlayerColor = grid[startRow][startColumn]
-            previousOpponentColor = grid[gridSize - 1][gridSize - 1]
+        previousOpponentColor = grid[gridSize - 1][gridSize - 1]
         
         gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName)
         
         updateGridView()
-            // Теперь вы можете использовать playerCellCount по своему усмотрению
         updateScoreLabel()
-       disableButtonsForColors()
+        
+        let playerButtons = stackView.arrangedSubviews as! [UIButton]
+        let opponentButtons = stackView1.arrangedSubviews as! [UIButton]
+        settingGameInterface()
+        disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
+    }
+    
+    @objc func colorButtonTap1(_ sender: UIButton) {
+        let colorIndex = sender.tag
+        let colorName = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"][colorIndex]
+        print("Color button tapped: \(colorName)")
+        
+        let startRow = gridSize - 1
+        let startColumn = gridSize - 1
+        
+        //        startRow = gridSize - 1
+        //        startColumn = gridSize - 1
+        
+        previousPlayerColor = grid[startRow][startColumn]
+        previousOpponentColor = grid[gridSize - 1][gridSize - 1]
+        
+        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName)
+        
+        updateGridView()
+        updateOpponentScoreLabel()
+        
+        let playerButtons = stackView.arrangedSubviews as! [UIButton]
+        let opponentButtons = stackView1.arrangedSubviews as! [UIButton]
+        disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
     }
 }
 

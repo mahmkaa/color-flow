@@ -130,4 +130,19 @@ class GameLogic {
         // Подсчитываем количество клеток, связанных с начальной клеткой
         return connectedCells.count
     }
+    
+    func countOpponentCells(gridSize: Int ,grid: [[String]]) -> Int {
+        // Начальная клетка
+        let startRow = gridSize - 1
+        let startColumn = gridSize - 1
+        
+        // Получаем цвет начальной клетки
+        let startColor = grid[startRow][startColumn]
+        
+        // Используем метод findConnectedCells, чтобы найти все связанные клетки
+        let connectedCells = findConnectedCells(grid: grid, row: startRow, column: startColumn)
+        
+        // Подсчитываем количество клеток, связанных с начальной клеткой
+        return connectedCells.count
+    }
 }

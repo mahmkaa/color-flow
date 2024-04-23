@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     var gridSize: Int = 0
     var cellSize: CGFloat = 0.0
     
+    //pvp/pve setting
+    var isPVP: Bool = true
+    
 //    var player: AVPlayer?
     
     //buttons
@@ -238,12 +241,15 @@ class ViewController: UIViewController {
     //selectors
     @objc private func pveButtonTap() {
         print("pvebutton tap tap")
+        isPVP = false
         showDifficultyMenu()
     }
     
     //selectors
     @objc private func pvpButtonTap() {
         print("pvpbutton tap tap")
+        isPVP = true
+        showSizeMenu()
     }
     
     @objc private func easyLevelTap() {
@@ -272,6 +278,8 @@ class ViewController: UIViewController {
         let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
         
+        vc.isPVP = isPVP
+        
         vc.gridSize = 8
         vc.cellSize = 45.0
         
@@ -293,6 +301,8 @@ class ViewController: UIViewController {
         
         let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
+        
+        vc.isPVP = isPVP
         
         vc.gridSize = 16
         vc.cellSize = 25.0
