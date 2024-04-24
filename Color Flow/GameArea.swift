@@ -11,6 +11,8 @@ import SnapKit
 class GameArea: UIViewController {
     var isPVP: Bool = true
     
+    var currentPlayer: Int = 1
+    
     var grid = [[String]]()
     let gameLogic = GameLogic()
     
@@ -41,6 +43,7 @@ class GameArea: UIViewController {
         setupGrid()
         setupUI()
         settingGameInterface()
+        randomStart()
         
         print("\(isPVP)")
         
@@ -385,11 +388,11 @@ class GameArea: UIViewController {
         }
         
         if playerCellCount < opponentCellCount {
-            endGameLabelP1.text = "You lose😔\nYour score: \(playerCellCount)"
-            endGameLabelP2.text = "You WIN!🥳\nYour score: \(opponentCellCount)"
+            endGameLabelP1.text = "You lose 😔\nYour score: \(playerCellCount)"
+            endGameLabelP2.text = "You WON! 🥳\nYour score: \(opponentCellCount)"
         } else {
-            endGameLabelP1.text = "You WIN!🥳\nYour score: \(playerCellCount)"
-            endGameLabelP2.text = "You lose😔\nYour score: \(opponentCellCount)"
+            endGameLabelP1.text = "You WON! 🥳\nYour score: \(playerCellCount)"
+            endGameLabelP2.text = "You lose 😔\nYour score: \(opponentCellCount)"
         }
     }
     
@@ -399,17 +402,17 @@ class GameArea: UIViewController {
         let startColor = grid[0][0]
         // Получаем цвет клетки противника (gridSize - 1, gridSize - 1)
         let opponentColor = grid[gridSize - 1][gridSize - 1]
-
+        
         // Массив цветов кнопок, соответствующий их порядку
         let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
-
+        
         // Обработка кнопок игрока
         for (index, button) in playerButtons.enumerated() {
             let buttonColor = colors[index]
             button.isEnabled = buttonColor != startColor && buttonColor != opponentColor
             button.setImage(UIImage(named: button.isEnabled ? buttonColor : "lightGrey"), for: .disabled)
         }
-
+        
         // Обработка кнопок противника
         for (index, button) in opponentButtons.enumerated() {
             let buttonColor = colors.reversed()[index]
@@ -422,6 +425,49 @@ class GameArea: UIViewController {
         for button in buttons {
             button.isEnabled = false
             button.alpha = 0.5
+        }
+    }
+    
+    func enableButtonStack(_ buttons: [UIButton]) {
+        for button in buttons {
+            button.isEnabled = true
+            button.alpha = 1.0
+        }
+    }
+    
+    //MARK: - stepByStep
+    func stepByStep() {
+        let player1Buttons = stackView.arrangedSubviews as! [UIButton]
+        let player2Buttons = stackView1.arrangedSubviews as! [UIButton]
+        
+        if currentPlayer == 1 {
+            disableButtonStack(player1Buttons)
+            enableButtonStack(player2Buttons)
+            currentPlayer = 2
+        } else if currentPlayer == 2 {
+            disableButtonStack(player2Buttons)
+            enableButtonStack(player1Buttons)
+            currentPlayer = 1
+        }
+    }
+    
+    func randomStart() {
+        if isPVP {
+            let number = Int.random(in: 1...2)
+            
+            //нужно реализовать методы которые покажут лейбл начинающего игрока и картинку со стрелкой на начальную клетку игрока
+            switch number {
+            case 1:
+                print("p1")
+                currentPlayer = 1
+                disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
+            case 2:
+                print("p2")
+                currentPlayer = 2
+                disableButtonStack(stackView.arrangedSubviews as! [UIButton])
+            default:
+                print("Error")
+            }
         }
     }
     
@@ -483,6 +529,7 @@ class GameArea: UIViewController {
         
         let playerButtons = stackView.arrangedSubviews as! [UIButton]
         let opponentButtons = stackView1.arrangedSubviews as! [UIButton]
+        stepByStep()
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
         settingGameInterface()
         endGame()
@@ -509,6 +556,7 @@ class GameArea: UIViewController {
         
         let playerButtons = stackView.arrangedSubviews as! [UIButton]
         let opponentButtons = stackView1.arrangedSubviews as! [UIButton]
+        stepByStep()
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
         endGame()
     }
