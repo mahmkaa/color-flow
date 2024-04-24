@@ -152,11 +152,11 @@ class ViewController: UIViewController {
         view.addSubview(area16Button)
         
         let area32Button = area32x32
-        area32Button.setTitle("32x32", for: .normal)
+        area32Button.setTitle("25x25", for: .normal)
         area32Button.setTitleColor(.white, for: .normal)
         area32Button.backgroundColor = .gray
         area32Button.layer.cornerRadius = 12
-        area32Button.addTarget(self, action: #selector(area8x8Tap), for: .touchUpInside)
+        area32Button.addTarget(self, action: #selector(area32х32Tap), for: .touchUpInside)
         area32Button.isHidden = true
         view.addSubview(area32Button)
         
@@ -295,7 +295,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func area16х16Tap() {
-        print("8x8")
+        print("16х16")
         print("до \(gridSize),\(cellSize)")
         
         
@@ -316,6 +316,30 @@ class ViewController: UIViewController {
         }
         
         print("после \(gridSize),\(cellSize)")
+    }
+    
+    @objc private func area32х32Tap() {
+        print("25x25")
+        print("до \(gridSize),\(cellSize)")
+        
+        
+        let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
+        
+        vc.isPVP = isPVP
+        
+        vc.gridSize = 25
+        vc.cellSize = 16
+        
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.showMainMenu() // Вы можете изменить значение задержки по вашему усмотрению
+        }
+        
+        print("после \(vc.gridSize),\(vc.cellSize)")
     }
     
     private func showMainMenu() {

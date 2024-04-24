@@ -16,11 +16,14 @@ class GameArea: UIViewController {
     
     let exit = UIButton(type: .system)
     let button = UIButton(type: .system)
+    let endGameButton = UIButton(type: .system)
     var colorButtons: [UIButton] = []
     
     let tutorialLabel = UILabel()
     let scoreLabelP1 = UILabel()
     let scoreLabelP2 = UILabel()
+    let endGameLabelP1 = UILabel()
+    let endGameLabelP2 = UILabel()
     
     var gridSize: Int = 0
     var cellSize: CGFloat = 0.0
@@ -29,6 +32,7 @@ class GameArea: UIViewController {
     var previousPlayerColor: String?
     var previousOpponentColor: String?
     
+    var gridStackView: UIStackView?
     var stackView: UIStackView!
     var stackView1: UIStackView!
     
@@ -94,6 +98,15 @@ class GameArea: UIViewController {
         exitButton.addTarget(self, action: #selector(confirmExit), for: .touchUpInside)
         view.addSubview(exitButton)
         
+        let endExitButton = endGameButton
+        let configurationExitButton = UIImage.SymbolConfiguration(pointSize: 75)
+        endExitButton.setImage(UIImage(systemName: "xmark.app"), for: .normal)
+        endExitButton.setPreferredSymbolConfiguration(configurationExitButton, forImageIn: .normal)
+        endExitButton.tintColor = .white
+        endExitButton.addTarget(self, action: #selector(endExitButtonTap), for: .touchUpInside)
+        endExitButton.isHidden = true
+        view.addSubview(endExitButton)
+        
         
         let label = tutorialLabel
         label.text = "Для выхода используйте жест масштабирования"
@@ -119,13 +132,35 @@ class GameArea: UIViewController {
         
         let scoreLabel1 = scoreLabelP2
         scoreLabel1.textColor = UIColor.white
-        scoreLabel1.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        scoreLabel1.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         scoreLabel1.textAlignment = .center
         scoreLabel1.numberOfLines = 1
         scoreLabel1.layer.cornerRadius = 10
         scoreLabel1.clipsToBounds = true
         view.addSubview(scoreLabel1)
         view.bringSubviewToFront(scoreLabel1)
+        
+        let endGameLabelP1 = endGameLabelP1
+        endGameLabelP1.textColor = UIColor.white
+        endGameLabelP1.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
+        endGameLabelP1.textAlignment = .center
+        endGameLabelP1.numberOfLines = 2
+        endGameLabelP1.layer.cornerRadius = 10
+        endGameLabelP1.clipsToBounds = true
+        endGameLabelP1.isHidden = true
+        view.addSubview(endGameLabelP1)
+        view.bringSubviewToFront(endGameLabelP1)
+        
+        let endGameLabelP2 = endGameLabelP2
+        endGameLabelP2.textColor = UIColor.white
+        endGameLabelP2.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
+        endGameLabelP2.textAlignment = .center
+        endGameLabelP2.numberOfLines = 2
+        endGameLabelP2.layer.cornerRadius = 10
+        endGameLabelP2.clipsToBounds = true
+        endGameLabelP2.isHidden = true
+        view.addSubview(endGameLabelP2)
+        view.bringSubviewToFront(endGameLabelP2)
         
         updateScoreLabel()
         updateOpponentScoreLabel()
@@ -188,6 +223,11 @@ class GameArea: UIViewController {
             make.height.width.equalTo(50)
         }
         
+        endExitButton.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+            make.height.width.equalTo(90)
+        }
+        
         tutorialLabel.snp.makeConstraints { make in
             make.height.equalTo(100)
             make.width.equalTo(300)
@@ -206,10 +246,25 @@ class GameArea: UIViewController {
             make.width.equalTo(100)
             make.centerX.equalToSuperview()
             make.top.equalTo(stackView1.snp.bottom).offset(30)
-            
         }
         
         scoreLabelP2.transform = CGAffineTransform(scaleX: -1, y: -1)
+        
+        endGameLabelP1.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(endExitButton.snp.bottom).offset(75)
+            make.height.equalTo(100)
+            make.width.equalTo(200)
+        }
+        
+        endGameLabelP2.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(endExitButton.snp.top).offset(-75)
+            make.height.equalTo(100)
+            make.width.equalTo(200)
+        }
+        
+        endGameLabelP2.transform = CGAffineTransform(scaleX: -1, y: -1)
         
         stackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -228,7 +283,9 @@ class GameArea: UIViewController {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 0
-        view.addSubview(stackView)
+        gridStackView = stackView
+        view.addSubview(gridStackView ?? stackView)
+        
         
         grid = gameLogic.fillGridRandomly(gridSize: gridSize)
         
@@ -274,18 +331,66 @@ class GameArea: UIViewController {
         }
     }
     
+    //MARK: - scoreLabels
     func updateScoreLabel() {
         // Подсчитываем количество клеток игрока, связанных с начальной клеткой
         let playerCellCount = gameLogic.countPlayerCells(grid: grid)
         
         // Обновляем текст лейбла
-        scoreLabelP1.text = "Счет: \(playerCellCount)"
+        scoreLabelP1.text = "Score: \(playerCellCount)"
     }
     
     func updateOpponentScoreLabel() {
         let playerCellCount = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
         
-        scoreLabelP2.text = "Счет: \(playerCellCount)"
+        scoreLabelP2.text = "Score: \(playerCellCount)"
+    }
+    
+    //MARK: - endGame
+    func endGame() {
+        // Подсчет количества клеток игроков
+        let playerCellCount = gameLogic.countPlayerCells(grid: grid)
+        let opponentCellCount = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
+        
+        // Подсчет общей площади арены и количества захваченных клеток
+        let arenaArea = gridSize * gridSize
+        let playersSum = playerCellCount + opponentCellCount
+        
+        // Проверка условия окончания игры
+        if arenaArea == playersSum {
+            // Скрытие счетчиков
+            scoreLabelP2.isHidden = true
+            scoreLabelP1.isHidden = true
+            
+            // Отключение и затемнение кнопок
+            disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
+            disableButtonStack(stackView.arrangedSubviews as! [UIButton])
+            
+            // Установка сетки в полупрозрачный режим
+            gridStackView?.alpha = 0.5
+            
+            // Вызов метода, который может отображать сообщение о конце игры или переходить к новому уровню
+            endGameMessage()  // Дополнительный метод для показа сообщения об окончании игры
+        }
+    }
+    
+    func endGameMessage() {
+        let playerCellCount = gameLogic.countPlayerCells(grid: grid)
+        let opponentCellCount = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
+        
+        endGameButton.isHidden = false
+        endGameLabelP1.isHidden = false
+        if isPVP == true {
+            endGameLabelP2.isHidden = false
+        }
+        
+        if playerCellCount < opponentCellCount {
+            endGameLabelP1.text = "You lose😔\nYour score: \(playerCellCount)"
+            endGameLabelP2.text = "You WIN!🥳\nYour score: \(opponentCellCount)"
+        } else {
+            endGameLabelP1.text = "You WIN!🥳\nYour score: \(playerCellCount)"
+            endGameLabelP2.text = "You lose😔\nYour score: \(opponentCellCount)"
+        }
     }
     
     //MARK: - disableButtons
@@ -313,15 +418,15 @@ class GameArea: UIViewController {
         }
     }
     
+    func disableButtonStack(_ buttons: [UIButton]){
+        for button in buttons {
+            button.isEnabled = false
+            button.alpha = 0.5
+        }
+    }
+    
     //MARK: - settingGameInterface
     func settingGameInterface() {
-        func disableButtonStack(_ buttons: [UIButton]){
-            for button in buttons {
-                button.isEnabled = false
-                button.alpha = 0.5
-            }
-        }
-        
         if isPVP {
             scoreLabelP2.isHidden = false
         } else {
@@ -332,8 +437,9 @@ class GameArea: UIViewController {
     }
     
     //MARK: - selectors
-    @objc func tapTestButton() {
+    @objc func endExitButtonTap() {
         print("Button tapped")
+        self.dismiss(animated: true)
     }
     
     @objc private func confirmExit() {
@@ -377,8 +483,9 @@ class GameArea: UIViewController {
         
         let playerButtons = stackView.arrangedSubviews as! [UIButton]
         let opponentButtons = stackView1.arrangedSubviews as! [UIButton]
-        settingGameInterface()
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
+        settingGameInterface()
+        endGame()
     }
     
     @objc func colorButtonTap1(_ sender: UIButton) {
@@ -403,6 +510,7 @@ class GameArea: UIViewController {
         let playerButtons = stackView.arrangedSubviews as! [UIButton]
         let opponentButtons = stackView1.arrangedSubviews as! [UIButton]
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
+        endGame()
     }
 }
 
