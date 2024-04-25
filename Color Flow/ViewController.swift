@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     
     //pvp/pve setting
     var isPVP: Bool = true
+    var isEasy: Bool = true
     
 //    var player: AVPlayer?
     
@@ -254,11 +255,14 @@ class ViewController: UIViewController {
     
     @objc private func easyLevelTap() {
         print("Easy level")
+        isEasy = true
         showSizeMenu()
     }
     
     @objc private func hardLevelTap() {
         print("Hard")
+        isEasy = false
+        showSizeMenu()
     }
     
     @objc private func backButtonTap() {
@@ -279,6 +283,7 @@ class ViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
         
         vc.isPVP = isPVP
+        vc.isEasy = isEasy
         
         vc.gridSize = 8
         vc.cellSize = 45.0
@@ -291,7 +296,7 @@ class ViewController: UIViewController {
             self.showMainMenu() // Вы можете изменить значение задержки по вашему усмотрению
         }
         
-        print("после \(gridSize),\(cellSize)")
+        print("после \(vc.gridSize),\(vc.cellSize)")
     }
     
     @objc private func area16х16Tap() {
@@ -303,6 +308,7 @@ class ViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
         
         vc.isPVP = isPVP
+        vc.isEasy = isEasy
         
         vc.gridSize = 16
         vc.cellSize = 25.0
@@ -327,6 +333,7 @@ class ViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
         
         vc.isPVP = isPVP
+        vc.isEasy = isEasy
         
         vc.gridSize = 25
         vc.cellSize = 16

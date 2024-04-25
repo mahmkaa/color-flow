@@ -10,11 +10,15 @@ import SnapKit
 
 class GameArea: UIViewController {
     var isPVP: Bool = true
+    var isEasy: Bool = true
     
     var currentPlayer: Int = 1
     
     var grid = [[String]]()
     let gameLogic = GameLogic()
+    
+    let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
+    let colors1 = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"]
     
     let exit = UIButton(type: .system)
     let button = UIButton(type: .system)
@@ -176,7 +180,6 @@ class GameArea: UIViewController {
         stackView.distribution = .fillEqually
         view.addSubview(stackView)
         
-        let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
         
         for colorName in colors {
             let button = UIButton(type: .custom)
@@ -198,8 +201,6 @@ class GameArea: UIViewController {
         stackView1.distribution = .fillEqually
         view.addSubview(stackView1)
         
-        let colors1 = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"]
-        
         for colorName in colors1{
             let button = UIButton(type: .custom)
             button.setImage(UIImage(named: colorName), for: .normal)
@@ -211,6 +212,12 @@ class GameArea: UIViewController {
             button.snp.makeConstraints { make in
                 make.width.height.equalTo(60)
             }
+        }
+        
+        if isPVP == false {
+            stackView1.isHidden = true
+        } else {
+            stackView1.isHidden = false
         }
         
         disableButtonsForColors(playerButtons: stackView.arrangedSubviews as! [UIButton], opponentButtons: stackView1.arrangedSubviews as! [UIButton])
@@ -482,6 +489,41 @@ class GameArea: UIViewController {
         }
     }
     
+    //MARK: - opponentAI
+    func opponentAI() {
+        guard !isPVP else {
+            // Игровой режим PvP, противник не требуется
+            return
+        }
+        
+        // Получаем массив кнопок игрока 2 (противника)
+        let player2Buttons = stackView1.arrangedSubviews as! [UIButton]
+        
+        // Выбираем цвет на основе уровня сложности
+        let chosenColor: String?
+        if isEasy {
+            chosenColor = gameLogic.easyDifficultyAI(grid: &grid, gridSize: gridSize)
+        } else {
+            chosenColor = gameLogic.hardDifficultyAI(grid: &grid, gridSize: gridSize)
+        }
+        
+        // Проверяем, удалось ли противнику выбрать цвет
+        guard let color = chosenColor else {
+            print("Противник не смог выбрать цвет")
+            return
+        }
+        
+        // Находим индекс выбранного цвета в массиве colors1
+        guard let chosenIndex = colors1.firstIndex(of: color), chosenIndex < player2Buttons.count else {
+            print("Цвет не найден в colors1 или индекс вне диапазона массива кнопок")
+            return
+        }
+        
+        // Вызываем действие нажатия на выбранную кнопку
+        let chosenButton = player2Buttons[chosenIndex]
+        chosenButton.sendActions(for: .touchUpInside)
+    }
+    
     //MARK: - selectors
     @objc func endExitButtonTap() {
         print("Button tapped")
@@ -533,6 +575,7 @@ class GameArea: UIViewController {
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
         settingGameInterface()
         endGame()
+        opponentAI()
     }
     
     @objc func colorButtonTap1(_ sender: UIButton) {

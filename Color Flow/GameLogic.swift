@@ -145,4 +145,58 @@ class GameLogic {
         // Подсчитываем количество клеток, связанных с начальной клеткой
         return connectedCells.count
     }
+    
+    func easyDifficultyAI(grid: inout [[String]], gridSize: Int) -> String?{
+        let playerColor = grid[0][0]
+        let opponentColor = grid[gridSize - 1][gridSize - 1]
+        
+        var availableColors = colors.filter { $0 != playerColor && $0 != opponentColor }
+        
+        guard !availableColors.isEmpty else {
+            print("Error: not found colors")
+            return nil
+        }
+        
+        let randomIndex = Int.random(in: 0..<availableColors.count)
+        let chosenColor = availableColors[randomIndex]
+        
+        print("Противник выбрал цвет \(chosenColor)")
+        
+        return chosenColor
+    }
+    
+    func hardDifficultyAI(grid: inout [[String]], gridSize: Int) -> String? {
+        let playerColor = grid[0][0]
+        let opponentColor = grid[gridSize - 1][gridSize - 1]
+        
+        var availableColors = colors.filter { $0 != playerColor && $0 != opponentColor }
+        
+        guard !availableColors.isEmpty else {
+                print("Ошибка: не найдено доступных цветов")
+                return nil
+            }
+        
+        var bestColor: String?
+        var maxCapturedCells = 0
+        
+        for color in availableColors {
+            var simulatedGrid = grid
+            
+            updateCellColors(grid: &simulatedGrid, row: gridSize - 1, column: gridSize - 1, newColor: color)
+            
+            let opponentControlledCells = countOpponentCells(gridSize: gridSize, grid: simulatedGrid)
+            
+            if opponentControlledCells > maxCapturedCells {
+                maxCapturedCells = opponentControlledCells
+                bestColor = color
+            }
+        }
+        
+        if let chosenColor = bestColor {
+            print("Противник выбрал \(chosenColor)")
+            return chosenColor
+        }
+        
+        return availableColors.first
+    }
 }
