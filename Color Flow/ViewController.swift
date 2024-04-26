@@ -30,6 +30,9 @@ class ViewController: UIViewController {
     let area8x8 = UIButton(type: .system)
     let area16x16 = UIButton(type: .system)
     let area32x32 = UIButton(type: .system)
+    let settingButton = UIButton(type: .system)
+    
+    let customFont = UIFont(name: "PIXY", size: 23)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,8 +93,9 @@ class ViewController: UIViewController {
         //кнопка пве
         let pveButton = pve
         pveButton.setTitle("PvE", for: .normal)
+        pveButton.titleLabel?.font = customFont
         pveButton.setTitleColor(.white, for: .normal)
-        pveButton.backgroundColor = .gray
+        pveButton.backgroundColor = .black.withAlphaComponent(0.65)
         pveButton.layer.cornerRadius = 12
         pveButton.addTarget(self, action: #selector(pveButtonTap), for: .touchUpInside)
         pveButton.isHidden = false
@@ -100,8 +104,9 @@ class ViewController: UIViewController {
         //pvp button
         let pvpButton = pvp
         pvpButton.setTitle("PvP", for: .normal)
+        pvpButton.titleLabel?.font = customFont
         pvpButton.setTitleColor(.white, for: .normal)
-        pvpButton.backgroundColor = .gray
+        pvpButton.backgroundColor = .black.withAlphaComponent(0.65)
         pvpButton.layer.cornerRadius = 12
         pvpButton.addTarget(self, action: #selector(pvpButtonTap), for: .touchUpInside)
         pvpButton.isHidden = false
@@ -109,6 +114,7 @@ class ViewController: UIViewController {
         
         let easyLevelButton = easy
         easyLevelButton.setTitle("Easy", for: .normal)
+        easyLevelButton.titleLabel?.font = customFont
         easyLevelButton.setTitleColor(.white, for: .normal)
         easyLevelButton.backgroundColor = .gray
         easyLevelButton.layer.cornerRadius = 12
@@ -118,6 +124,7 @@ class ViewController: UIViewController {
         
         let hardLevelButton = hard
         hardLevelButton.setTitle("Hard", for: .normal)
+        hardLevelButton.titleLabel?.font = customFont
         hardLevelButton.setTitleColor(.white, for: .normal)
         hardLevelButton.backgroundColor = .gray
         hardLevelButton.layer.cornerRadius = 12
@@ -127,6 +134,7 @@ class ViewController: UIViewController {
         
         let backButton = back
         backButton.setTitle("Back", for: .normal)
+        backButton.titleLabel?.font = customFont
         backButton.setTitleColor(.white, for: .normal)
         backButton.backgroundColor = .gray
         backButton.layer.cornerRadius = 12
@@ -136,6 +144,7 @@ class ViewController: UIViewController {
         
         let area8Button = area8x8
         area8Button.setTitle("8x8", for: .normal)
+        area8Button.titleLabel?.font = customFont
         area8Button.setTitleColor(.white, for: .normal)
         area8Button.backgroundColor = .gray
         area8Button.layer.cornerRadius = 12
@@ -145,6 +154,7 @@ class ViewController: UIViewController {
         
         let area16Button = area16x16
         area16Button.setTitle("16x16", for: .normal)
+        area16Button.titleLabel?.font = customFont
         area16Button.setTitleColor(.white, for: .normal)
         area16Button.backgroundColor = .gray
         area16Button.layer.cornerRadius = 12
@@ -154,6 +164,7 @@ class ViewController: UIViewController {
         
         let area32Button = area32x32
         area32Button.setTitle("25x25", for: .normal)
+        area32Button.titleLabel?.font = customFont
         area32Button.setTitleColor(.white, for: .normal)
         area32Button.backgroundColor = .gray
         area32Button.layer.cornerRadius = 12
@@ -163,6 +174,7 @@ class ViewController: UIViewController {
         
         let backButton1 = backArea
         backButton1.setTitle("Back", for: .normal)
+        backButton1.titleLabel?.font = customFont
         backButton1.setTitleColor(.white, for: .normal)
         backButton1.backgroundColor = .gray
         backButton1.layer.cornerRadius = 12
@@ -246,7 +258,6 @@ class ViewController: UIViewController {
         showDifficultyMenu()
     }
     
-    //selectors
     @objc private func pvpButtonTap() {
         print("pvpbutton tap tap")
         isPVP = true
@@ -272,7 +283,11 @@ class ViewController: UIViewController {
     
     @objc private func backButton1Tap() {
         print("Back 1")
-        showDifficultyMenu()
+        if isPVP {
+            showMainMenu()
+        } else {
+            showDifficultyMenu()
+        }
     }
     
     @objc private func area8x8Tap() {
@@ -321,7 +336,7 @@ class ViewController: UIViewController {
             self.showMainMenu() // Вы можете изменить значение задержки по вашему усмотрению
         }
         
-        print("после \(gridSize),\(cellSize)")
+        print("после \(vc.gridSize),\(vc.cellSize)")
     }
     
     @objc private func area32х32Tap() {

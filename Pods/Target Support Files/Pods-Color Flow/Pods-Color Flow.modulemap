@@ -1,0 +1,6 @@
+framework module Pods_Color_Flow {
+  umbrella header "Pods-Color Flow-umbrella.h"
+
+  export *
+  module * { export * }
+}

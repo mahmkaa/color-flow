@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import CoreImage.CIFilterBuiltins
 
 class GameArea: UIViewController {
     var isPVP: Bool = true
@@ -30,6 +31,9 @@ class GameArea: UIViewController {
     let scoreLabelP2 = UILabel()
     let endGameLabelP1 = UILabel()
     let endGameLabelP2 = UILabel()
+    
+    let customFont = UIFont(name: "PIXY", size: 20)
+    let customFont1 = UIFont(name: "PIXY", size: 16)
     
     var gridSize: Int = 0
     var cellSize: CGFloat = 0.0
@@ -63,37 +67,104 @@ class GameArea: UIViewController {
     
     //MARK: - setupUI
     func setupUI(){
-        let frameCount = 26
-        var frames = [UIImage]()
+        //        let frameCount = 26
+        //        var frames = [UIImage]()
+        //
+        //        for index in 1...frameCount {
+        //            let frameName = "backGif\(index)"
+        //            if let image = UIImage(named: frameName) {
+        //                frames.append(image)
+        //            } else {
+        //                print("Не удалось загрузить изображение: \(frameName)")
+        //            }
+        //        }
         
-        for index in 1...frameCount {
-            let frameName = "backGif\(index)"
-            if let image = UIImage(named: frameName) {
-                frames.append(image)
-            } else {
-                print("Не удалось загрузить изображение: \(frameName)")
-            }
-        }
+        //        //MARK: - blurBackGround
+        //        var blurredFrames = [UIImage]()
+        //        let blurFilter = CIFilter(name: "CIBoxBlur")
+        //        blurFilter?.setValue(5, forKey: kCIInputRadiusKey)
+        //
+        //        for index in 1...26 {
+        //            let frameName = "backGif\(index)"
+        //
+        //            if let image = UIImage(named: frameName) {
+        //                let ciImage = CIImage(image: image)
+        //
+        //                blurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+        //
+        //                if let outputImage = blurFilter?.outputImage {
+        //                    let context = CIContext(options: nil)
+        //                    if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+        //                        let blurredImage = UIImage(cgImage: cgImage)
+        //
+        //                        blurredFrames.append(blurredImage)
+        //                    }
+        //                }
+        //            } else {
+        //                print("Не удалось загрузить: \(frameName)")
+        //            }
+        //        }
         
-        let background = UIImageView()
-        background.frame = view.bounds
-        background.contentMode = .scaleAspectFill
-        view.addSubview(background)
-        view.sendSubviewToBack(background)
         
-        background.animationImages = frames
-        background.animationDuration = 3
-        background.animationRepeatCount = 0
-        background.startAnimating()
-        
-        //        let background: UIImageView = {
-        //            let imageView = UIImageView(image: UIImage(named: "nightSky"))
-        //            imageView.contentMode = .scaleAspectFill
-        //            imageView.translatesAutoresizingMaskIntoConstraints = false
-        //            return imageView
-        //        }()
+        //        let background = UIImageView()
+        //        background.frame = view.bounds
+        //        background.contentMode = .scaleAspectFill
         //        view.addSubview(background)
         //        view.sendSubviewToBack(background)
+        
+        //        background.animationImages = blurredFrames
+        //        background.animationDuration = 3
+        //        background.animationRepeatCount = 0
+        //        background.startAnimating()
+        
+        //MARK: - static pic background
+        let background: UIImageView = {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFill
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let originalImage = UIImage(named: "backGif3") {
+                    // Преобразуем изображение в CIImage
+                    let ciImage = CIImage(image: originalImage)
+                    
+                    // Создаем фильтр размытия Гаусса
+                    let gaussianBlurFilter = CIFilter(name: "CIGaussianBlur")
+                    
+                    // Устанавливаем радиус размытия (регулируйте значение по своему усмотрению)
+                    gaussianBlurFilter?.setValue(7, forKey: kCIInputRadiusKey)
+                    
+                    // Устанавливаем входное изображение для фильтра
+                    gaussianBlurFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+                    
+                    // Получаем результат после применения фильтра
+                    if let outputCIImage = gaussianBlurFilter?.outputImage {
+                        // Смещение области обрезки
+                        let cropRect = CGRect(x: ciImage!.extent.origin.x + 5,
+                                              y: ciImage!.extent.origin.y + 5,
+                                              width: ciImage!.extent.size.width - 10,
+                                              height: ciImage!.extent.size.height - 10)
+                        
+                        // Обрезаем изображение на заданной области
+                        let croppedCIImage = outputCIImage.cropped(to: cropRect)
+                        
+                        // Создаем контекст для преобразования CIImage в UIImage
+                        let context = CIContext(options: nil)
+                        if let cgImage = context.createCGImage(croppedCIImage, from: croppedCIImage.extent) {
+                            // Устанавливаем размазанное изображение в UIImageView
+                            let blurredImage = UIImage(cgImage: cgImage)
+                            
+                            DispatchQueue.main.async {
+                                imageView.image = blurredImage
+                            }
+                        }
+                    }
+                }
+            }
+            return imageView
+        }()
+        view.addSubview(background)
+        view.sendSubviewToBack(background)
         
         
         let exitButton = exit
@@ -118,7 +189,8 @@ class GameArea: UIViewController {
         let label = tutorialLabel
         label.text = "Для выхода используйте жест масштабирования"
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        label.font = customFont
+        label.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.layer.cornerRadius = 10
@@ -129,6 +201,7 @@ class GameArea: UIViewController {
         
         let scoreLabel = scoreLabelP1
         scoreLabel.textColor = UIColor.white
+        scoreLabel.font = customFont1
         scoreLabel.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         scoreLabel.textAlignment = .center
         scoreLabel.numberOfLines = 1
@@ -139,6 +212,7 @@ class GameArea: UIViewController {
         
         let scoreLabel1 = scoreLabelP2
         scoreLabel1.textColor = UIColor.white
+        scoreLabel1.font = customFont1
         scoreLabel1.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         scoreLabel1.textAlignment = .center
         scoreLabel1.numberOfLines = 1
@@ -149,6 +223,7 @@ class GameArea: UIViewController {
         
         let endGameLabelP1 = endGameLabelP1
         endGameLabelP1.textColor = UIColor.white
+        endGameLabelP1.font = customFont
         endGameLabelP1.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
         endGameLabelP1.textAlignment = .center
         endGameLabelP1.numberOfLines = 2
@@ -160,6 +235,7 @@ class GameArea: UIViewController {
         
         let endGameLabelP2 = endGameLabelP2
         endGameLabelP2.textColor = UIColor.white
+        endGameLabelP2.font = customFont
         endGameLabelP2.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
         endGameLabelP2.textAlignment = .center
         endGameLabelP2.numberOfLines = 2
@@ -550,6 +626,8 @@ class GameArea: UIViewController {
         present(alert, animated: false, completion: nil)
     }
     
+    
+    //MARK: - colorButtonTap
     @objc func colorButtonTap(_ sender: UIButton) {
         let colorIndex = sender.tag
         let colorName = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"][colorIndex]
@@ -576,6 +654,9 @@ class GameArea: UIViewController {
         settingGameInterface()
         endGame()
         opponentAI()
+        if isPVP {
+            disableButtonStack(stackView.arrangedSubviews as! [UIButton])
+        }
     }
     
     @objc func colorButtonTap1(_ sender: UIButton) {
@@ -602,6 +683,9 @@ class GameArea: UIViewController {
         stepByStep()
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
         endGame()
+        if isPVP {
+            disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
+        }
     }
 }
 
@@ -612,10 +696,10 @@ extension UIViewController {
         let animation = CAKeyframeAnimation(keyPath: "opacity")
         animation.values = [1.0, 0.0] // Изменение значения прозрачности от 1.0 (полностью видимый) до 0.0 (полностью прозрачный)
         animation.keyTimes = [0.0, 1.0] // Временные точки, в которые изменяется значение прозрачности
-        animation.duration = 2.8 // Длительность анимации изменения прозрачности в секундах
+        animation.duration = 3 // Длительность анимации изменения прозрачности в секундах
         label.layer.add(animation, forKey: "opacity") // Применение анимации к слою лейбла
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.8) {
             label.removeFromSuperview() // Удаление лейбла из иерархии представлений после завершения анимации
         }
     }

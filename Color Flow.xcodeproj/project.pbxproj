@@ -7,35 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9ABCC8C3AB3FBDC152E0057 /* Pods_Color_Flow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E36CD6D9B9E1DF60010A582 /* Pods_Color_Flow.framework */; };
 		EA20CF4B2BCEE37500CF6A6B /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */; };
 		EA5E30CD29E1A8C00025BDBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */; };
 		EA5E30CF29E1A8C00025BDBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */; };
 		EA5E30D129E1A8C00025BDBB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30D029E1A8C00025BDBB /* ViewController.swift */; };
 		EA5E30D429E1A8C00025BDBB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA5E30D229E1A8C00025BDBB /* Main.storyboard */; };
-		EA5E30D629E1A8C10025BDBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA5E30D529E1A8C10025BDBB /* Assets.xcassets */; };
 		EA5E30D929E1A8C10025BDBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA5E30D729E1A8C10025BDBB /* LaunchScreen.storyboard */; };
-		EAA371D02BD05C1A0023BC0D /* back1.gif in Resources */ = {isa = PBXBuildFile; fileRef = EAA371CF2BD05C190023BC0D /* back1.gif */; };
+		EA63AAFB2BDBDB040079BF76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF52BDBDB040079BF76 /* Assets.xcassets */; };
+		EA63AAFC2BDBDB040079BF76 /* back1.gif in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF62BDBDB040079BF76 /* back1.gif */; };
+		EA63AAFD2BDBDB040079BF76 /* backGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF72BDBDB040079BF76 /* backGif.gif */; };
+		EA63AAFE2BDBDB040079BF76 /* backWater.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF82BDBDB040079BF76 /* backWater.mp4 */; };
+		EA63AAFF2BDBDB040079BF76 /* PIXY.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF92BDBDB040079BF76 /* PIXY.ttf */; };
 		EAAE186F2BC54DED00D8B292 /* GameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE186E2BC54DED00D8B292 /* GameArea.swift */; };
 		EAAE18712BC54E1300D8B292 /* GameArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAAE18702BC54E1300D8B292 /* GameArea.storyboard */; };
 		EAF28E1C2BC961F1002A8BD0 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */; };
 		EAF28E1E2BC9632C002A8BD0 /* LoadGameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */; };
 		EAF28E202BC96B00002A8BD0 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */; };
-		EAFB65D12BC9503100F740EF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EAFB65D02BC9503100F740EF /* SnapKit */; };
-		EAFB65D32BC9503100F740EF /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = EAFB65D22BC9503100F740EF /* SnapKit-Dynamic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E36CD6D9B9E1DF60010A582 /* Pods_Color_Flow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Color_Flow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		26E2EBE58BDC46FFE4E9922A /* Pods-Color Flow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Flow.release.xcconfig"; path = "Target Support Files/Pods-Color Flow/Pods-Color Flow.release.xcconfig"; sourceTree = "<group>"; };
+		D63EEF542C425485885EFEA6 /* Pods-Color Flow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Flow.debug.xcconfig"; path = "Target Support Files/Pods-Color Flow/Pods-Color Flow.debug.xcconfig"; sourceTree = "<group>"; };
 		EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
 		EA5E30C929E1A8C00025BDBB /* Color Flow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Flow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EA5E30D029E1A8C00025BDBB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EA5E30D329E1A8C00025BDBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		EA5E30D529E1A8C10025BDBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA5E30D829E1A8C10025BDBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA5E30DA29E1A8C10025BDBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EAA371CF2BD05C190023BC0D /* back1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = back1.gif; sourceTree = "<group>"; };
-		EAA371D12BD05D190023BC0D /* backWater.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = backWater.mp4; sourceTree = "<group>"; };
+		EA63AAF52BDBDB040079BF76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EA63AAF62BDBDB040079BF76 /* back1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = back1.gif; sourceTree = "<group>"; };
+		EA63AAF72BDBDB040079BF76 /* backGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = backGif.gif; sourceTree = "<group>"; };
+		EA63AAF82BDBDB040079BF76 /* backWater.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = backWater.mp4; sourceTree = "<group>"; };
+		EA63AAF92BDBDB040079BF76 /* PIXY.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PIXY.ttf; sourceTree = "<group>"; };
 		EAAE186E2BC54DED00D8B292 /* GameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameArea.swift; sourceTree = "<group>"; };
 		EAAE18702BC54E1300D8B292 /* GameArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameArea.storyboard; sourceTree = "<group>"; };
 		EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
@@ -48,14 +55,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAFB65D12BC9503100F740EF /* SnapKit in Frameworks */,
-				EAFB65D32BC9503100F740EF /* SnapKit-Dynamic in Frameworks */,
+				C9ABCC8C3AB3FBDC152E0057 /* Pods_Color_Flow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09023D9D96C9876FC4C8A821 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E36CD6D9B9E1DF60010A582 /* Pods_Color_Flow.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B28C4AE9CE74DFCD351B0915 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D63EEF542C425485885EFEA6 /* Pods-Color Flow.debug.xcconfig */,
+				26E2EBE58BDC46FFE4E9922A /* Pods-Color Flow.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		EA20CF4C2BD03BA500CF6A6B /* trash */ = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +93,8 @@
 			children = (
 				EA5E30CB29E1A8C00025BDBB /* Color Flow */,
 				EA5E30CA29E1A8C00025BDBB /* Products */,
+				B28C4AE9CE74DFCD351B0915 /* Pods */,
+				09023D9D96C9876FC4C8A821 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,14 +117,24 @@
 				EAAE186E2BC54DED00D8B292 /* GameArea.swift */,
 				EAAE18702BC54E1300D8B292 /* GameArea.storyboard */,
 				EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */,
-				EAA371CF2BD05C190023BC0D /* back1.gif */,
-				EAA371D12BD05D190023BC0D /* backWater.mp4 */,
-				EA5E30D529E1A8C10025BDBB /* Assets.xcassets */,
 				EA5E30D729E1A8C10025BDBB /* LaunchScreen.storyboard */,
 				EA5E30DA29E1A8C10025BDBB /* Info.plist */,
+				EA63AAFA2BDBDB040079BF76 /* Resources */,
 				EA20CF4C2BD03BA500CF6A6B /* trash */,
 			);
 			path = "Color Flow";
+			sourceTree = "<group>";
+		};
+		EA63AAFA2BDBDB040079BF76 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EA63AAF52BDBDB040079BF76 /* Assets.xcassets */,
+				EA63AAF62BDBDB040079BF76 /* back1.gif */,
+				EA63AAF72BDBDB040079BF76 /* backGif.gif */,
+				EA63AAF82BDBDB040079BF76 /* backWater.mp4 */,
+				EA63AAF92BDBDB040079BF76 /* PIXY.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,19 +144,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA5E30DD29E1A8C10025BDBB /* Build configuration list for PBXNativeTarget "Color Flow" */;
 			buildPhases = (
+				777199C4FDD68D3184CD5F78 /* [CP] Check Pods Manifest.lock */,
 				EA5E30C529E1A8C00025BDBB /* Sources */,
 				EA5E30C629E1A8C00025BDBB /* Frameworks */,
 				EA5E30C729E1A8C00025BDBB /* Resources */,
+				82D9A7A76A0C8125A4ED8BCA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Color Flow";
-			packageProductDependencies = (
-				EAFB65D02BC9503100F740EF /* SnapKit */,
-				EAFB65D22BC9503100F740EF /* SnapKit-Dynamic */,
-			);
 			productName = "Color Flow";
 			productReference = EA5E30C929E1A8C00025BDBB /* Color Flow.app */;
 			productType = "com.apple.product-type.application";
@@ -150,9 +183,6 @@
 				Base,
 			);
 			mainGroup = EA5E30C029E1A8C00025BDBB;
-			packageReferences = (
-				EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */,
-			);
 			productRefGroup = EA5E30CA29E1A8C00025BDBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -169,13 +199,58 @@
 			files = (
 				EA5E30D929E1A8C10025BDBB /* LaunchScreen.storyboard in Resources */,
 				EAAE18712BC54E1300D8B292 /* GameArea.storyboard in Resources */,
-				EA5E30D629E1A8C10025BDBB /* Assets.xcassets in Resources */,
-				EAA371D02BD05C1A0023BC0D /* back1.gif in Resources */,
+				EA63AAFB2BDBDB040079BF76 /* Assets.xcassets in Resources */,
 				EA5E30D429E1A8C00025BDBB /* Main.storyboard in Resources */,
+				EA63AAFF2BDBDB040079BF76 /* PIXY.ttf in Resources */,
+				EA63AAFD2BDBDB040079BF76 /* backGif.gif in Resources */,
+				EA63AAFC2BDBDB040079BF76 /* back1.gif in Resources */,
+				EA63AAFE2BDBDB040079BF76 /* backWater.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		777199C4FDD68D3184CD5F78 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Color Flow-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		82D9A7A76A0C8125A4ED8BCA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Color Flow/Pods-Color Flow-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Color Flow/Pods-Color Flow-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Color Flow/Pods-Color Flow-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EA5E30C529E1A8C00025BDBB /* Sources */ = {
@@ -267,7 +342,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -323,7 +398,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -335,18 +410,21 @@
 		};
 		EA5E30DE29E1A8C10025BDBB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D63EEF542C425485885EFEA6 /* Pods-Color Flow.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 532T45L6HD;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Color Flow/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -362,18 +440,21 @@
 		};
 		EA5E30DF29E1A8C10025BDBB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26E2EBE58BDC46FFE4E9922A /* Pods-Color Flow.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 532T45L6HD;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Color Flow/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -409,30 +490,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = exactVersion;
-				version = 5.7.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		EAFB65D02BC9503100F740EF /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-		EAFB65D22BC9503100F740EF /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EAFB65CF2BC9503100F740EF /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EA5E30C129E1A8C00025BDBB /* Project object */;
 }

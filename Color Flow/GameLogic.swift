@@ -24,7 +24,7 @@ class GameLogic {
         var grid = [[String]]()
         
         // Инициализация списка доступных цветов
-        let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
+        let colors = colors
         
         // Начальные клетки игрока и противника
         var startColor: String?
@@ -84,7 +84,7 @@ class GameLogic {
             dfs(row: row, column: column + 1)
             dfs(row: row, column: column - 1)
         }
-        
+        //отдельный поток асин или колбэк
         dfs(row: row, column: column)
         
         return connectedCells
@@ -121,9 +121,6 @@ class GameLogic {
         let startRow = 0
         let startColumn = 0
         
-        // Получаем цвет начальной клетки
-        let startColor = grid[startRow][startColumn]
-        
         // Используем метод findConnectedCells, чтобы найти все связанные клетки
         let connectedCells = findConnectedCells(grid: grid, row: startRow, column: startColumn)
         
@@ -136,9 +133,6 @@ class GameLogic {
         let startRow = gridSize - 1
         let startColumn = gridSize - 1
         
-        // Получаем цвет начальной клетки
-        let startColor = grid[startRow][startColumn]
-        
         // Используем метод findConnectedCells, чтобы найти все связанные клетки
         let connectedCells = findConnectedCells(grid: grid, row: startRow, column: startColumn)
         
@@ -150,7 +144,7 @@ class GameLogic {
         let playerColor = grid[0][0]
         let opponentColor = grid[gridSize - 1][gridSize - 1]
         
-        var availableColors = colors.filter { $0 != playerColor && $0 != opponentColor }
+        let availableColors = colors.filter { $0 != playerColor && $0 != opponentColor }
         
         guard !availableColors.isEmpty else {
             print("Error: not found colors")
@@ -169,7 +163,7 @@ class GameLogic {
         let playerColor = grid[0][0]
         let opponentColor = grid[gridSize - 1][gridSize - 1]
         
-        var availableColors = colors.filter { $0 != playerColor && $0 != opponentColor }
+        let availableColors = colors.filter { $0 != playerColor && $0 != opponentColor }
         
         guard !availableColors.isEmpty else {
                 print("Ошибка: не найдено доступных цветов")
