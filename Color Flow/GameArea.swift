@@ -10,13 +10,16 @@ import SnapKit
 import CoreImage.CIFilterBuiltins
 
 class GameArea: UIViewController {
-    var isPVP: Bool = true
-    var isEasy: Bool = true
     
     var currentPlayer: Int = 1
     
     var grid = [[String]]()
     let gameLogic = GameLogic()
+    let mainMenu = ViewController()
+    let gameSettings = GameSettingsViewController()
+    
+    var gameMode: ViewController.GameMode = .pvp
+    var gameDifficulty: GameSettingsViewController.Difficulty = .easy
     
     let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
     let colors1 = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"]
@@ -53,9 +56,9 @@ class GameArea: UIViewController {
         settingGameInterface()
         randomStart()
         
-        print("\(isPVP)")
         
-        let swipeExit = UIPinchGestureRecognizer(target: self, action: #selector(confirmExit))
+        let swipeExit = UISwipeGestureRecognizer(target: self, action: #selector(confirmExit))
+        swipeExit.direction = .right
         view.addGestureRecognizer(swipeExit)
     }
     
@@ -105,7 +108,6 @@ class GameArea: UIViewController {
         //            }
         //        }
         
-        
         //        let background = UIImageView()
         //        background.frame = view.bounds
         //        background.contentMode = .scaleAspectFill
@@ -119,6 +121,13 @@ class GameArea: UIViewController {
         
         //MARK: - static pic background
         let background: UIImageView = {
+            let background = UIImageView()
+            background.frame = view.bounds
+            background.contentMode = .scaleAspectFill
+            background.image = UIImage(named: "backGif3")
+            view.addSubview(background)
+            view.sendSubviewToBack(background)
+            
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFill
             imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -160,6 +169,13 @@ class GameArea: UIViewController {
                         }
                     }
                 }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                let animationDuration = 0.1
+                UIView.animate(withDuration: TimeInterval(animationDuration)){
+                    background.alpha = 0.0
+                }
+                background.removeFromSuperview()
             }
             return imageView
         }()
@@ -290,9 +306,10 @@ class GameArea: UIViewController {
             }
         }
         
-        if isPVP == false {
+        
+        if gameMode == .pve {
             stackView1.isHidden = true
-        } else {
+        } else if gameMode == .pvp {
             stackView1.isHidden = false
         }
         
@@ -466,7 +483,7 @@ class GameArea: UIViewController {
         
         endGameButton.isHidden = false
         endGameLabelP1.isHidden = false
-        if isPVP == true {
+        if gameMode == .pvp {
             endGameLabelP2.isHidden = false
         }
         
@@ -535,7 +552,7 @@ class GameArea: UIViewController {
     }
     
     func randomStart() {
-        if isPVP {
+        if gameMode == .pvp {
             let number = Int.random(in: 1...2)
             
             //нужно реализовать методы которые покажут лейбл начинающего игрока и картинку со стрелкой на начальную клетку игрока
@@ -556,7 +573,7 @@ class GameArea: UIViewController {
     
     //MARK: - settingGameInterface
     func settingGameInterface() {
-        if isPVP {
+        if gameMode == .pvp {
             scoreLabelP2.isHidden = false
         } else {
             scoreLabelP2.isHidden = true
@@ -567,7 +584,7 @@ class GameArea: UIViewController {
     
     //MARK: - opponentAI
     func opponentAI() {
-        guard !isPVP else {
+        guard gameMode == .pve else {
             // Игровой режим PvP, противник не требуется
             return
         }
@@ -577,7 +594,7 @@ class GameArea: UIViewController {
         
         // Выбираем цвет на основе уровня сложности
         let chosenColor: String?
-        if isEasy {
+        if gameDifficulty == .easy {
             chosenColor = gameLogic.easyDifficultyAI(grid: &grid, gridSize: gridSize)
         } else {
             chosenColor = gameLogic.hardDifficultyAI(grid: &grid, gridSize: gridSize)
@@ -603,27 +620,35 @@ class GameArea: UIViewController {
     //MARK: - selectors
     @objc func endExitButtonTap() {
         print("Button tapped")
-        self.dismiss(animated: true)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
     }
     
     @objc private func confirmExit() {
         print("tap exit")
-        let alert = UIAlertController(
-            title: "Хотите выйти?",
-            message: "Ваш прогресс не сохранится",
-            preferredStyle: .alert
-        )
         
-        let cencelAction = UIAlertAction(title: "Отмена", style: .cancel)
-        
-        let confirmAction = UIAlertAction(title: "Выйти", style: .default) { [weak self] _ in
-            self?.dismiss(animated: true)
-        }
-        
-        alert.addAction(cencelAction)
-        alert.addAction(confirmAction)
-        
-        present(alert, animated: false, completion: nil)
+        dismiss(animated: true)
+//        let alert = UIAlertController(
+//            title: "Хотите выйти?",
+//            message: "Ваш прогресс не сохранится",
+//            preferredStyle: .alert
+//        )
+//        
+//        let cencelAction = UIAlertAction(title: "Отмена", style: .cancel)
+//        
+//        let confirmAction = UIAlertAction(title: "Выйти", style: .default) { [weak self] _ in
+//            self?.dismiss(animated: true)
+//        }
+//        
+//        alert.addAction(cencelAction)
+//        alert.addAction(confirmAction)
+//        
+//        present(alert, animated: false, completion: nil)
     }
     
     
@@ -654,7 +679,7 @@ class GameArea: UIViewController {
         settingGameInterface()
         endGame()
         opponentAI()
-        if isPVP {
+        if gameMode == .pvp {
             disableButtonStack(stackView.arrangedSubviews as! [UIButton])
         }
     }
@@ -683,7 +708,7 @@ class GameArea: UIViewController {
         stepByStep()
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
         endGame()
-        if isPVP {
+        if gameMode == .pvp {
             disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
         }
     }

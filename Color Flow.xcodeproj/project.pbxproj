@@ -19,6 +19,8 @@
 		EA63AAFD2BDBDB040079BF76 /* backGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF72BDBDB040079BF76 /* backGif.gif */; };
 		EA63AAFE2BDBDB040079BF76 /* backWater.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF82BDBDB040079BF76 /* backWater.mp4 */; };
 		EA63AAFF2BDBDB040079BF76 /* PIXY.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA63AAF92BDBDB040079BF76 /* PIXY.ttf */; };
+		EA7497442BDD256800AD8262 /* GameSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7497432BDD256800AD8262 /* GameSettingsViewController.swift */; };
+		EA7497482BDD3AAC00AD8262 /* GameSettingsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA7497472BDD3AAC00AD8262 /* GameSettingsViewController.storyboard */; };
 		EAAE186F2BC54DED00D8B292 /* GameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE186E2BC54DED00D8B292 /* GameArea.swift */; };
 		EAAE18712BC54E1300D8B292 /* GameArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAAE18702BC54E1300D8B292 /* GameArea.storyboard */; };
 		EAF28E1C2BC961F1002A8BD0 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */; };
@@ -43,6 +45,8 @@
 		EA63AAF72BDBDB040079BF76 /* backGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = backGif.gif; sourceTree = "<group>"; };
 		EA63AAF82BDBDB040079BF76 /* backWater.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = backWater.mp4; sourceTree = "<group>"; };
 		EA63AAF92BDBDB040079BF76 /* PIXY.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PIXY.ttf; sourceTree = "<group>"; };
+		EA7497432BDD256800AD8262 /* GameSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewController.swift; sourceTree = "<group>"; };
+		EA7497472BDD3AAC00AD8262 /* GameSettingsViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameSettingsViewController.storyboard; sourceTree = "<group>"; };
 		EAAE186E2BC54DED00D8B292 /* GameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameArea.swift; sourceTree = "<group>"; };
 		EAAE18702BC54E1300D8B292 /* GameArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameArea.storyboard; sourceTree = "<group>"; };
 		EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 				EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */,
 				EA5E30D029E1A8C00025BDBB /* ViewController.swift */,
 				EA5E30D229E1A8C00025BDBB /* Main.storyboard */,
+				EA7497432BDD256800AD8262 /* GameSettingsViewController.swift */,
+				EA7497472BDD3AAC00AD8262 /* GameSettingsViewController.storyboard */,
 				EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */,
 				EAAE186E2BC54DED00D8B292 /* GameArea.swift */,
 				EAAE18702BC54E1300D8B292 /* GameArea.storyboard */,
@@ -202,6 +208,7 @@
 				EA63AAFB2BDBDB040079BF76 /* Assets.xcassets in Resources */,
 				EA5E30D429E1A8C00025BDBB /* Main.storyboard in Resources */,
 				EA63AAFF2BDBDB040079BF76 /* PIXY.ttf in Resources */,
+				EA7497482BDD3AAC00AD8262 /* GameSettingsViewController.storyboard in Resources */,
 				EA63AAFD2BDBDB040079BF76 /* backGif.gif in Resources */,
 				EA63AAFC2BDBDB040079BF76 /* back1.gif in Resources */,
 				EA63AAFE2BDBDB040079BF76 /* backWater.mp4 in Resources */,
@@ -262,6 +269,7 @@
 				EA5E30D129E1A8C00025BDBB /* ViewController.swift in Sources */,
 				EAF28E1E2BC9632C002A8BD0 /* LoadGameArea.swift in Sources */,
 				EA5E30CD29E1A8C00025BDBB /* AppDelegate.swift in Sources */,
+				EA7497442BDD256800AD8262 /* GameSettingsViewController.swift in Sources */,
 				EAF28E1C2BC961F1002A8BD0 /* GameLogic.swift in Sources */,
 				EA5E30CF29E1A8C00025BDBB /* SceneDelegate.swift in Sources */,
 				EAF28E202BC96B00002A8BD0 /* GameCell.swift in Sources */,
