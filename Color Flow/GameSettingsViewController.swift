@@ -102,20 +102,24 @@ class GameSettingsViewController: UIViewController {
             control.addTarget(self, action: #selector(difficultyChanged(_:)), for: .valueChanged)
             control.translatesAutoresizingMaskIntoConstraints = false
             control.backgroundColor = .black.withAlphaComponent(0.1)
-            if let selectedBackgroundImage = UIImage(named: "black") {
-                // Установите изображение в качестве фона для выбранного сегмента
-                control.setBackgroundImage(selectedBackgroundImage, for: .selected, barMetrics: .default)
-            }
+            control.selectedSegmentTintColor = .black.withAlphaComponent(0.55)
             control.setTitleTextAttributes(textAttributes, for: .normal)
             return control
         }()
         view.addSubview(difficultySegmentedControl)
+        
+        if gameMode == .pvp {
+            difficultySegmentedControl.isHidden = true
+        }
         
         let gridSizeSegmentedControl: UISegmentedControl = {
             let control = UISegmentedControl(items: ["8x8", "16x16", "25x25"])
             control.selectedSegmentIndex = 0
             control.addTarget(self, action: #selector(gridSizeChanged(_:)), for: .valueChanged)
             control.translatesAutoresizingMaskIntoConstraints = false
+            control.backgroundColor = .black.withAlphaComponent(0.1)
+            control.selectedSegmentTintColor = .black.withAlphaComponent(0.55)
+            control.setTitleTextAttributes(textAttributes, for: .normal)
             return control
         }()
         view.addSubview(gridSizeSegmentedControl)
@@ -137,14 +141,14 @@ class GameSettingsViewController: UIViewController {
             make.top.equalToSuperview().offset(70)
         }
         
-        difficultySegmentedControl.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(play.snp.bottom).offset(50)
-        }
-        
         gridSizeSegmentedControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(difficultySegmentedControl.snp.bottom).offset(50)
+            make.top.equalTo(play.snp.bottom).offset(70)
+        }
+        
+        difficultySegmentedControl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(gridSizeSegmentedControl.snp.bottom).offset(50)
         }
     }
     
