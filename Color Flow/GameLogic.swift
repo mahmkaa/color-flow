@@ -64,31 +64,73 @@ class GameLogic {
         
         return grid
     }
-    
+    //алгоритм в ширину
     func findConnectedCells(grid: [[String]], row: Int, column: Int) -> Set<Coordinate> {
         var connectedCells = Set<Coordinate>()
         let targetColor = grid[row][column]
         var visited = Set<Coordinate>()
+        var queue = [(row: Int, column: Int)]()
         
-        func dfs(row: Int, column: Int) {
-            if row < 0 || row >= grid.count || column < 0 || column >= grid[row].count || visited.contains(Coordinate(row, column)) || grid[row][column] != targetColor {
-                return
+        // Начальная клетка
+        queue.append((row, column))
+        
+        // BFS алгоритм
+        while !queue.isEmpty {
+            let current = queue.removeFirst()
+            let currentRow = current.row
+            let currentColumn = current.column
+            
+            // Если текущая клетка находится вне границ или уже посещена, пропускаем ее
+            guard currentRow >= 0 && currentRow < grid.count && currentColumn >= 0 && currentColumn < grid[currentRow].count else {
+                continue
             }
             
-            visited.insert(Coordinate(row, column))
-            connectedCells.insert(Coordinate(row, column))
+            let currentCoordinate = Coordinate(currentRow, currentColumn)
             
-            // Проверяем соседние клетки
-            dfs(row: row + 1, column: column)
-            dfs(row: row - 1, column: column)
-            dfs(row: row, column: column + 1)
-            dfs(row: row, column: column - 1)
+            // Пропускаем, если клетка уже посещена или цвет не совпадает с целевым
+            if visited.contains(currentCoordinate) || grid[currentRow][currentColumn] != targetColor {
+                continue
+            }
+            
+            // Отмечаем клетку как посещенную
+            visited.insert(currentCoordinate)
+            connectedCells.insert(currentCoordinate)
+            
+            // Добавляем соседние клетки в очередь
+            queue.append((currentRow + 1, currentColumn))
+            queue.append((currentRow - 1, currentColumn))
+            queue.append((currentRow, currentColumn + 1))
+            queue.append((currentRow, currentColumn - 1))
         }
-        //отдельный поток асин или колбэк
-        dfs(row: row, column: column)
         
         return connectedCells
     }
+    
+//    //алгоритм в глубину
+//    func findConnectedCells(grid: [[String]], row: Int, column: Int) -> Set<Coordinate> {
+//        var connectedCells = Set<Coordinate>()
+//        let targetColor = grid[row][column]
+//        var visited = Set<Coordinate>()
+//        
+//        func dfs(row: Int, column: Int) {
+//            if row < 0 || row >= grid.count || column < 0 || column >= grid[row].count || visited.contains(Coordinate(row, column)) || grid[row][column] != targetColor {
+//                return
+//            }
+//            
+//            visited.insert(Coordinate(row, column))
+//            connectedCells.insert(Coordinate(row, column))
+//            
+//            // Проверяем соседние клетки
+//            dfs(row: row + 1, column: column)
+//            dfs(row: row - 1, column: column)
+//            dfs(row: row, column: column + 1)
+//            dfs(row: row, column: column - 1)
+//        }
+//        //отдельный поток асин или колбэк
+//        dfs(row: row, column: column)
+//        
+//        return connectedCells
+//    }
     
     func updateCellColors(grid: inout [[String]], row: Int, column: Int, newColor: String) {
         // Проверяем, находится ли переданный индекс строки в пределах допустимого диапазона
