@@ -68,40 +68,47 @@ class GameLogic {
     func findConnectedCells(grid: [[String]], row: Int, column: Int) -> Set<Coordinate> {
         var connectedCells = Set<Coordinate>()
         let targetColor = grid[row][column]
-        var visited = Set<Coordinate>()
-        var queue = [(row: Int, column: Int)]()
         
-        // Начальная клетка
-        queue.append((row, column))
+        let semaphore = DispatchSemaphore(value: 0) // Создаем семафор с начальным значением 0
+        let queue = DispatchQueue.global(qos: .userInitiated) // Используем глобальную очередь для асинхронного выполнения
         
-        // BFS алгоритм
-        while !queue.isEmpty {
-            let current = queue.removeFirst()
-            let currentRow = current.row
-            let currentColumn = current.column
+        queue.async {
+            var visited = Set<Coordinate>()
+            var cellQueue = [(row: Int, column: Int)]()
             
-            // Если текущая клетка находится вне границ или уже посещена, пропускаем ее
-            guard currentRow >= 0 && currentRow < grid.count && currentColumn >= 0 && currentColumn < grid[currentRow].count else {
-                continue
+            cellQueue.append((row, column))
+            
+            // Выполнение BFS алгоритма
+            while !cellQueue.isEmpty {
+                let current = cellQueue.removeFirst()
+                let currentRow = current.row
+                let currentColumn = current.column
+                
+                guard currentRow >= 0 && currentRow < grid.count && currentColumn >= 0 && currentColumn < grid[currentRow].count else {
+                    continue
+                }
+                
+                let currentCoordinate = Coordinate(currentRow, currentColumn)
+                
+                if visited.contains(currentCoordinate) || grid[currentRow][currentColumn] != targetColor {
+                    continue
+                }
+                
+                visited.insert(currentCoordinate)
+                connectedCells.insert(currentCoordinate)
+                
+                cellQueue.append((currentRow + 1, currentColumn))
+                cellQueue.append((currentRow - 1, currentColumn))
+                cellQueue.append((currentRow, currentColumn + 1))
+                cellQueue.append((currentRow, currentColumn - 1))
             }
             
-            let currentCoordinate = Coordinate(currentRow, currentColumn)
-            
-            // Пропускаем, если клетка уже посещена или цвет не совпадает с целевым
-            if visited.contains(currentCoordinate) || grid[currentRow][currentColumn] != targetColor {
-                continue
-            }
-            
-            // Отмечаем клетку как посещенную
-            visited.insert(currentCoordinate)
-            connectedCells.insert(currentCoordinate)
-            
-            // Добавляем соседние клетки в очередь
-            queue.append((currentRow + 1, currentColumn))
-            queue.append((currentRow - 1, currentColumn))
-            queue.append((currentRow, currentColumn + 1))
-            queue.append((currentRow, currentColumn - 1))
+            // Завершаем асинхронную задачу, освобождая семафор
+            semaphore.signal()
         }
+        
+        // Ждем завершения асинхронной задачи
+        semaphore.wait()
         
         return connectedCells
     }
@@ -201,32 +208,46 @@ class GameLogic {
         return chosenColor
     }
     
+    
     func hardDifficultyAI(grid: inout [[String]], gridSize: Int) -> String? {
         let playerColor = grid[0][0]
         let opponentColor = grid[gridSize - 1][gridSize - 1]
-        
+
         let availableColors = colors.filter { $0 != playerColor && $0 != opponentColor }
-        
+
         guard !availableColors.isEmpty else {
-                print("Ошибка: не найдено доступных цветов")
-                return nil
-            }
-        
+            print("Ошибка: не найдено доступных цветов")
+            return nil
+        }
+
         var bestColor: String?
         var maxCapturedCells = 0
         
-        for color in availableColors {
-            var simulatedGrid = grid
-            
-            updateCellColors(grid: &simulatedGrid, row: gridSize - 1, column: gridSize - 1, newColor: color)
-            
-            let opponentControlledCells = countOpponentCells(gridSize: gridSize, grid: simulatedGrid)
-            
-            if opponentControlledCells > maxCapturedCells {
-                maxCapturedCells = opponentControlledCells
-                bestColor = color
+        var gridCopy = grid
+
+        let semaphore = DispatchSemaphore(value: 0)
+        let queue = DispatchQueue.global(qos: .userInitiated)
+        
+        queue.async {
+            for color in availableColors {
+                var simulatedGrid = gridCopy
+                
+                self.updateCellColors(grid: &simulatedGrid, row: gridSize - 1, column: gridSize - 1, newColor: color)
+                
+                let opponentControlledCells = self.countOpponentCells(gridSize: gridSize, grid: simulatedGrid)
+                
+                if opponentControlledCells > maxCapturedCells {
+                    maxCapturedCells = opponentControlledCells
+                    bestColor = color
+                }
             }
+
+            // Завершаем асинхронную задачу, освобождая семафор
+            semaphore.signal()
         }
+        
+        // Ждем завершения асинхронной задачи
+        semaphore.wait()
         
         if let chosenColor = bestColor {
             print("Противник выбрал \(chosenColor)")
@@ -235,4 +256,6 @@ class GameLogic {
         
         return availableColors.first
     }
+
+
 }
