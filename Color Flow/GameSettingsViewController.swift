@@ -33,6 +33,8 @@ class GameSettingsViewController: UIViewController {
     //other
     let sizeControl = UISegmentedControl()
     let difficultyControl = UISegmentedControl()
+    var gridSizeSegmentIndex = 0
+    var difficultySegmentIndex = 0
     
     let background = UIImageView()
     
@@ -42,12 +44,14 @@ class GameSettingsViewController: UIViewController {
         .font: UIFont(name: "PIXY", size: 15) as Any,
         .foregroundColor: UIColor.white
     ]
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadSettings()
         setupUI()
+        
+        
         print("\(gameMode)")
         
         let swipeExit = UISwipeGestureRecognizer(target: self, action: #selector(backButtonTap))
@@ -98,7 +102,7 @@ class GameSettingsViewController: UIViewController {
         
         let difficultySegmentedControl: UISegmentedControl = {
             let control = UISegmentedControl(items: ["Easy", "Hard"])
-            control.selectedSegmentIndex = 0
+            control.selectedSegmentIndex = difficultySegmentIndex
             control.addTarget(self, action: #selector(difficultyChanged(_:)), for: .valueChanged)
             control.translatesAutoresizingMaskIntoConstraints = false
             control.backgroundColor = .black.withAlphaComponent(0.1)
@@ -114,7 +118,7 @@ class GameSettingsViewController: UIViewController {
         
         let gridSizeSegmentedControl: UISegmentedControl = {
             let control = UISegmentedControl(items: ["8x8", "16x16", "25x25"])
-            control.selectedSegmentIndex = 0
+            control.selectedSegmentIndex = gridSizeSegmentIndex
             control.addTarget(self, action: #selector(gridSizeChanged(_:)), for: .valueChanged)
             control.translatesAutoresizingMaskIntoConstraints = false
             control.backgroundColor = .black.withAlphaComponent(0.1)
@@ -155,6 +159,8 @@ class GameSettingsViewController: UIViewController {
     
     @objc func playButtonTap() {
         print("play tap")
+        print("\(gameDifficulty)")
+        print("\(gridSize)")
         
         let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
@@ -199,6 +205,7 @@ class GameSettingsViewController: UIViewController {
         default:
             break
         }
+        saveSettings(gridSize: gridSize, cellSize: cellSize, gridSizeSegmentIndex: sender.selectedSegmentIndex, difficultySegmentIndex: difficultySegmentIndex)
     }
     
     @objc func difficultyChanged(_ sender: UISegmentedControl) {
@@ -207,5 +214,45 @@ class GameSettingsViewController: UIViewController {
         } else {
             gameDifficulty = .hard
         }
+        saveSettings(gridSize: gridSize, cellSize: cellSize, gridSizeSegmentIndex: gridSizeSegmentIndex, difficultySegmentIndex: sender.selectedSegmentIndex)
+    }
+    
+    
+    func saveSettings(gridSize: Int, cellSize: CGFloat, gridSizeSegmentIndex: Int, difficultySegmentIndex: Int) {
+        let defaults = UserDefaults.standard
+        
+        // Сохранение значений
+        defaults.set(gridSize, forKey: "gridSize")
+        defaults.set(cellSize, forKey: "cellSize")
+        
+        defaults.set(gridSizeSegmentIndex, forKey: "gridSizeSegmentIndex")
+        defaults.set(difficultySegmentIndex, forKey: "difficultySegmentIndex")
+        
+        defaults.synchronize()
+    }
+    
+    func loadSettings() {
+        let defaults = UserDefaults.standard
+        
+        // Загрузка сохраненных значений
+        gridSize = defaults.integer(forKey: "gridSize")
+        cellSize = CGFloat(defaults.float(forKey: "cellSize"))
+        
+        // Загрузка индексов выбранных сегментов
+        gridSizeSegmentIndex = defaults.integer(forKey: "gridSizeSegmentIndex")
+        difficultySegmentIndex = defaults.integer(forKey: "difficultySegmentIndex")
+        
+        // Установка значений в соответствующие свойства
+        sizeControl.selectedSegmentIndex = gridSizeSegmentIndex
+        difficultyControl.selectedSegmentIndex = difficultySegmentIndex
+        
+        // Установите gameDifficulty в соответствии с difficultySegmentIndex
+        if difficultySegmentIndex == 0 {
+            gameDifficulty = .easy
+        } else {
+            gameDifficulty = .hard
+        }
     }
 }
+
+

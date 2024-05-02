@@ -49,6 +49,9 @@ class GameArea: UIViewController {
     var stackView: UIStackView!
     var stackView1: UIStackView!
     
+    let playerMarker = UIImageView()
+    let opponentMarker = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGrid()
@@ -64,7 +67,7 @@ class GameArea: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        animateLabelDisappearance(label: tutorialLabel)
+        //animateLabelDisappearance(label: tutorialLabel)
     }
     
     
@@ -183,6 +186,40 @@ class GameArea: UIViewController {
         view.sendSubviewToBack(background)
         
         
+        let frameCount = 10
+        var frames = [UIImage]()
+        for index in 1...frameCount {
+            let frameName = "marker\(index)"
+            if let image = UIImage(named: frameName) {
+                frames.append(image)
+            } else {
+                print("Не удалось загрузить изображение \(frameName)")
+            }
+        }
+        
+        let playerMarker = playerMarker
+        if gameMode == .pve {
+            playerMarker.isHidden = false
+        } else {
+            playerMarker.isHidden = true
+        }
+        view.addSubview(playerMarker)
+        
+        playerMarker.animationImages = frames
+        playerMarker.animationDuration = 1
+        playerMarker.animationRepeatCount = 0
+        playerMarker.startAnimating()
+        
+        let opponentMarker = opponentMarker
+        opponentMarker.isHidden = true
+        view.addSubview(opponentMarker)
+        
+        opponentMarker.animationImages = frames
+        opponentMarker.animationDuration = 1
+        opponentMarker.animationRepeatCount = 0
+        opponentMarker.startAnimating()
+        
+        
         let exitButton = exit
         //exitButton.setTitle("Exit", for: .normal)
         //exitButton.backgroundColor = .white
@@ -190,6 +227,7 @@ class GameArea: UIViewController {
         exitButton.setImage(UIImage(systemName: "figure.walk.arrival"), for: .normal)
         exitButton.tintColor = .white
         exitButton.addTarget(self, action: #selector(confirmExit), for: .touchUpInside)
+        exitButton.isHidden = true
         view.addSubview(exitButton)
         
         let endExitButton = endGameButton
@@ -212,8 +250,8 @@ class GameArea: UIViewController {
         label.layer.cornerRadius = 10
         label.clipsToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
-        view.bringSubviewToFront(label)
+//        view.addSubview(label)
+//        view.bringSubviewToFront(label)
         
         let scoreLabel = scoreLabelP1
         scoreLabel.textColor = UIColor.white
@@ -326,16 +364,54 @@ class GameArea: UIViewController {
             make.height.width.equalTo(50)
         }
         
+        playerMarker.snp.makeConstraints { make in
+            switch gridSize {
+            case 8:
+                make.width.height.equalTo(25)
+                make.leading.equalToSuperview().offset(35)
+            case 16:
+                make.width.height.equalTo(20)
+                make.leading.equalToSuperview().offset(11)
+            case 25:
+                make.width.height.equalTo(18)
+                make.leading.equalToSuperview().offset(7)
+            default:
+                make.width.height.equalTo(25)
+                make.leading.equalToSuperview().offset(25)
+            }
+            make.bottom.equalTo((gridStackView?.snp.top)!).offset(-10)
+        }
+        
+        opponentMarker.snp.makeConstraints { make in
+            switch gridSize {
+            case 8:
+                make.trailing.equalToSuperview().offset(-35)
+                make.width.height.equalTo(25)
+            case 16:
+                make.trailing.equalToSuperview().offset(-11)
+                make.width.height.equalTo(20)
+            case 25:
+                make.trailing.equalToSuperview().offset(-7)
+                make.width.height.equalTo(18)
+            default:
+                make.trailing.equalToSuperview().offset(-8)
+                make.width.height.equalTo(25)
+            }
+            make.top.equalTo(gridStackView?.snp.bottom ?? stackView1.snp.bottom).offset(10)
+        }
+        
+        opponentMarker.transform = CGAffineTransform(scaleX: -1, y: -1)
+        
         endExitButton.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
             make.height.width.equalTo(90)
         }
         
-        tutorialLabel.snp.makeConstraints { make in
-            make.height.equalTo(100)
-            make.width.equalTo(300)
-            make.centerX.centerY.equalToSuperview()
-        }
+//        tutorialLabel.snp.makeConstraints { make in
+//            make.height.equalTo(100)
+//            make.width.equalTo(300)
+//            make.centerX.centerY.equalToSuperview()
+//        }
         
         scoreLabelP1.snp.makeConstraints { make in
             make.height.equalTo(50)
@@ -465,6 +541,9 @@ class GameArea: UIViewController {
             scoreLabelP2.isHidden = true
             scoreLabelP1.isHidden = true
             
+            playerMarker.isHidden = true
+            opponentMarker.isHidden = true
+            
             // Отключение и затемнение кнопок
             disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
             disableButtonStack(stackView.arrangedSubviews as! [UIButton])
@@ -543,10 +622,14 @@ class GameArea: UIViewController {
         if currentPlayer == 1 {
             disableButtonStack(player1Buttons)
             enableButtonStack(player2Buttons)
+            playerMarker.isHidden = true
+            opponentMarker.isHidden = false
             currentPlayer = 2
         } else if currentPlayer == 2 {
             disableButtonStack(player2Buttons)
             enableButtonStack(player1Buttons)
+            playerMarker.isHidden = false
+            opponentMarker.isHidden = true
             currentPlayer = 1
         }
     }
@@ -561,10 +644,12 @@ class GameArea: UIViewController {
                 print("p1")
                 currentPlayer = 1
                 disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
+                playerMarker.isHidden = false
             case 2:
                 print("p2")
                 currentPlayer = 2
                 disableButtonStack(stackView.arrangedSubviews as! [UIButton])
+                opponentMarker.isHidden = false
             default:
                 print("Error")
             }
