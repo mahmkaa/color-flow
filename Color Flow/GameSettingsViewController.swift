@@ -24,11 +24,19 @@ class GameSettingsViewController: UIViewController {
         case hard
     }
     
+    enum GameState {
+        case proceed
+        case new
+    }
+    
     var gameDifficulty: Difficulty = .easy
+    var gameState: GameState = .new
     
     //buttons
     let playButton = UIButton(type: .system)
     let backButton = UIButton(type: .system)
+    let continueButton = UIButton(type: .system)
+    let newPlayButton = UIButton(type: .system)
     
     //other
     let sizeControl = UISegmentedControl()
@@ -89,8 +97,28 @@ class GameSettingsViewController: UIViewController {
         play.setTitleColor(.white, for: .normal)
         play.backgroundColor = .black.withAlphaComponent(0.65)
         play.layer.cornerRadius = 12
-        play.addTarget(self, action: #selector(playButtonTap), for: .touchUpInside)
+        play.addTarget(self, action: #selector(newPlayButtonTap), for: .touchUpInside)
         view.addSubview(play)
+        
+        let proceed = continueButton
+        proceed.setTitle("Continue", for: .normal)
+        proceed.titleLabel?.font = customFont
+        proceed.setTitleColor(.white, for: .normal)
+        proceed.backgroundColor = .black.withAlphaComponent(0.65)
+        proceed.layer.cornerRadius = 12
+        proceed.addTarget(self, action: #selector(playButtonTap), for: .touchUpInside)
+        proceed.isHidden = true
+        view.addSubview(proceed)
+        
+        let new = newPlayButton
+        new.setTitle("New Game", for: .normal)
+        new.titleLabel?.font = customFont
+        new.setTitleColor(.white, for: .normal)
+        new.backgroundColor = .black.withAlphaComponent(0.65)
+        new.layer.cornerRadius = 12
+        new.addTarget(self, action: #selector(newPlayButtonTap), for: .touchUpInside)
+        new.isHidden = true
+        view.addSubview(new)
         
         let back = backButton
         let configBackButton = UIImage.SymbolConfiguration(pointSize: 50)
@@ -128,6 +156,15 @@ class GameSettingsViewController: UIViewController {
         }()
         view.addSubview(gridSizeSegmentedControl)
         
+        if gameState == .proceed {
+            play.isHidden = true
+            difficultySegmentedControl.isHidden = true
+            gridSizeSegmentedControl.isHidden = true
+            
+            proceed.isHidden = false
+            new.isHidden = false
+        }
+        
         //constrains
         background.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -137,6 +174,19 @@ class GameSettingsViewController: UIViewController {
             make.width.equalTo(200)
             make.height.equalTo(80)
             make.centerX.centerY.equalToSuperview()
+        }
+        
+        proceed.snp.makeConstraints { make in
+            make.width.equalTo(200)
+            make.height.equalTo(80)
+            make.centerX.centerY.equalToSuperview()
+        }
+        
+        new.snp.makeConstraints { make in
+            make.width.equalTo(120)
+            make.height.equalTo(60)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(play.snp.bottom).offset(70)
         }
         
         back.snp.makeConstraints { make in
@@ -167,6 +217,28 @@ class GameSettingsViewController: UIViewController {
         
         vc.gameMode = gameMode
         vc.gameDifficulty = gameDifficulty
+        vc.gameState = .proceed
+        gameState = .proceed
+        
+        vc.gridSize = gridSize
+        vc.cellSize = cellSize
+        
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
+    }
+    
+    @objc func newPlayButtonTap() {
+        print("play tap")
+        print("\(gameDifficulty)")
+        print("\(gridSize)")
+        
+        let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
+        
+        vc.gameMode = gameMode
+        vc.gameDifficulty = gameDifficulty
+        vc.gameState = .new
         
         vc.gridSize = gridSize
         vc.cellSize = cellSize

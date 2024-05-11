@@ -20,6 +20,7 @@ class GameArea: UIViewController {
     
     var gameMode: ViewController.GameMode = .pvp
     var gameDifficulty: GameSettingsViewController.Difficulty = .easy
+    var gameState: GameSettingsViewController.GameState = .new
     
     let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
     let colors1 = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"]
@@ -42,6 +43,9 @@ class GameArea: UIViewController {
     var cellSize: CGFloat = 0.0
     var cells = [UIView]()
     
+    var playerGameScore = 0
+    var opponentGameScore = 0
+    
     var previousPlayerColor: String?
     var previousOpponentColor: String?
     
@@ -54,10 +58,17 @@ class GameArea: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupGrid()
-        setupUI()
-        settingGameInterface()
-        randomStart()
+        if gameState == .new {
+            setupGrid()
+            setupUI()
+            settingGameInterface()
+            randomStart()
+        } else if gameState == .proceed {
+            setupUI()
+            loadGameSession()
+            settingGameInterface()
+        }
+
         
         
         let swipeExit = UISwipeGestureRecognizer(target: self, action: #selector(confirmExit))
@@ -513,16 +524,16 @@ class GameArea: UIViewController {
     //MARK: - scoreLabels
     func updateScoreLabel() {
         // Подсчитываем количество клеток игрока, связанных с начальной клеткой
-        let playerCellCount = gameLogic.countPlayerCells(grid: grid)
+        playerGameScore = gameLogic.countPlayerCells(grid: grid)
         
         // Обновляем текст лейбла
-        scoreLabelP1.text = "Score: \(playerCellCount)"
+        scoreLabelP1.text = "Score: \(playerGameScore)"
     }
     
     func updateOpponentScoreLabel() {
-        let playerCellCount = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
+        opponentGameScore = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
         
-        scoreLabelP2.text = "Score: \(playerCellCount)"
+        scoreLabelP2.text = "Score: \(opponentGameScore)"
     }
     
     //MARK: - endGame
@@ -702,12 +713,46 @@ class GameArea: UIViewController {
         chosenButton.sendActions(for: .touchUpInside)
     }
     
+    
+    //MARK: - UserDefaults
+    func saveGameSession() {
+        let defaults = UserDefaults.standard
+        
+        let gridArray = grid.map { $0 }
+        defaults.set(gridArray, forKey: "gridState")
+        
+        defaults.set(currentPlayer, forKey: "currentPlayer")
+        defaults.set(playerGameScore, forKey: "playerGameScore")
+        defaults.set(opponentGameScore, forKey: "opponentGameScore")
+        
+        defaults.synchronize()
+    }
+    
+    func loadGameSession() {
+        let defaults = UserDefaults.standard
+        
+        if let gridArray = defaults.array(forKey: "gridState") as? [[String]] {
+            grid = gridArray
+        }
+        
+        currentPlayer = defaults.integer(forKey: "currentPlayer")
+        playerGameScore = defaults.integer(forKey: "playerGameScore")
+        opponentGameScore = defaults.integer(forKey: "opponentGameScore")
+        
+        updateGridView()
+    }
+    
     //MARK: - selectors
     @objc func endExitButtonTap() {
         print("Button tapped")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        
+        let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
+        let vcSettings = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
+        
+        vcSettings.gameState = .new
         
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
@@ -716,7 +761,12 @@ class GameArea: UIViewController {
     
     @objc private func confirmExit() {
         print("tap exit")
+        let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
+        let vcSettings = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
         
+        vcSettings.gameState = .proceed
+        
+        saveGameSession()
         dismiss(animated: true)
 //        let alert = UIAlertController(
 //            title: "Хотите выйти?",
