@@ -9,29 +9,37 @@ import UIKit
 import SnapKit
 
 class GameSettingsViewController: UIViewController {
-    let mainMenu = ViewController()
     
-    //size settings
+    //настройки
     var gridSize: Int = 8
     var cellSize: CGFloat = 45.0
+    var gameMode: GameMode = .pve
+    var gameDifficulty: Difficulty = .easy
+    var state: GameArea.GameState = .new
+    var gameState: GameArea.GameState = .new
+    var gridSizeSegmentIndex = 0
+    var difficultySegmentIndex = 0
     
-    //game modes
-    var gameMode: ViewController.GameMode = .pvp
+    enum GameMode {
+        case pvp
+        case pve
+    }
     
-    //difficulty
     enum Difficulty {
         case easy
         case hard
     }
     
-    enum GameState {
-        case proceed
-        case new
+    private var settingsFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("gameSettings.json")
     }
     
-    var gameDifficulty: Difficulty = .easy
-    var gameState: GameState = .new
-    
+    private var pvpSettingsFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("pvpGameSettings.json")
+    }
+
     //buttons
     let playButton = UIButton(type: .system)
     let backButton = UIButton(type: .system)
@@ -39,14 +47,13 @@ class GameSettingsViewController: UIViewController {
     let newPlayButton = UIButton(type: .system)
     
     //other
-    let sizeControl = UISegmentedControl()
-    let difficultyControl = UISegmentedControl()
-    var gridSizeSegmentIndex = 0
-    var difficultySegmentIndex = 0
+    var sizeControl = UISegmentedControl()
+    var difficultyControl = UISegmentedControl()
     
     let background = UIImageView()
     
     let customFont = UIFont(name: "PIXY", size: 30)
+    let customFont1 = UIFont(name: "PIXY", size: 20)
     
     let textAttributes: [NSAttributedString.Key: Any] = [
         .font: UIFont(name: "PIXY", size: 15) as Any,
@@ -55,16 +62,21 @@ class GameSettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("\(gameState)")
+        
+        gameState = state
         
         loadSettings()
         setupUI()
-        
+        gameSettingsViewLoad()
         
         print("\(gameMode)")
         
         let swipeExit = UISwipeGestureRecognizer(target: self, action: #selector(backButtonTap))
         swipeExit.direction = .right
         view.addGestureRecognizer(swipeExit)
+        
+        //continueGameView()
     }
     
     private func setupUI() {
@@ -112,11 +124,11 @@ class GameSettingsViewController: UIViewController {
         
         let new = newPlayButton
         new.setTitle("New Game", for: .normal)
-        new.titleLabel?.font = customFont
+        new.titleLabel?.font = customFont1
         new.setTitleColor(.white, for: .normal)
         new.backgroundColor = .black.withAlphaComponent(0.65)
         new.layer.cornerRadius = 12
-        new.addTarget(self, action: #selector(newPlayButtonTap), for: .touchUpInside)
+        new.addTarget(self, action: #selector(resetSetting), for: .touchUpInside)
         new.isHidden = true
         view.addSubview(new)
         
@@ -138,7 +150,8 @@ class GameSettingsViewController: UIViewController {
             control.setTitleTextAttributes(textAttributes, for: .normal)
             return control
         }()
-        view.addSubview(difficultySegmentedControl)
+        difficultyControl = difficultySegmentedControl
+        view.addSubview(difficultyControl)
         
         if gameMode == .pvp {
             difficultySegmentedControl.isHidden = true
@@ -154,16 +167,8 @@ class GameSettingsViewController: UIViewController {
             control.setTitleTextAttributes(textAttributes, for: .normal)
             return control
         }()
-        view.addSubview(gridSizeSegmentedControl)
-        
-        if gameState == .proceed {
-            play.isHidden = true
-            difficultySegmentedControl.isHidden = true
-            gridSizeSegmentedControl.isHidden = true
-            
-            proceed.isHidden = false
-            new.isHidden = false
-        }
+        sizeControl = gridSizeSegmentedControl
+        view.addSubview(sizeControl)
         
         //constrains
         background.snp.makeConstraints { make in
@@ -183,10 +188,10 @@ class GameSettingsViewController: UIViewController {
         }
         
         new.snp.makeConstraints { make in
-            make.width.equalTo(120)
-            make.height.equalTo(60)
+            make.width.equalTo(130)
+            make.height.equalTo(50)
             make.centerX.equalToSuperview()
-            make.top.equalTo(play.snp.bottom).offset(70)
+            make.top.equalTo(play.snp.bottom).offset(50)
         }
         
         back.snp.makeConstraints { make in
@@ -195,12 +200,12 @@ class GameSettingsViewController: UIViewController {
             make.top.equalToSuperview().offset(70)
         }
         
-        gridSizeSegmentedControl.snp.makeConstraints { make in
+        sizeControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(play.snp.bottom).offset(70)
         }
         
-        difficultySegmentedControl.snp.makeConstraints { make in
+        difficultyControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(gridSizeSegmentedControl.snp.bottom).offset(50)
         }
@@ -218,7 +223,7 @@ class GameSettingsViewController: UIViewController {
         vc.gameMode = gameMode
         vc.gameDifficulty = gameDifficulty
         vc.gameState = .proceed
-        gameState = .proceed
+        state = .proceed
         
         vc.gridSize = gridSize
         vc.cellSize = cellSize
@@ -246,6 +251,11 @@ class GameSettingsViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         self.present(vc, animated: true)
+    }
+    
+    @objc func resetSetting() {
+        state = .new
+        newGameView()
     }
     
     @objc func backButtonTap() {
@@ -277,53 +287,132 @@ class GameSettingsViewController: UIViewController {
         default:
             break
         }
-        saveSettings(gridSize: gridSize, cellSize: cellSize, gridSizeSegmentIndex: sender.selectedSegmentIndex, difficultySegmentIndex: difficultySegmentIndex)
+        
+        gridSizeSegmentIndex = sender.selectedSegmentIndex
+        saveSettings()
     }
     
     @objc func difficultyChanged(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
+        switch sender.selectedSegmentIndex {
+        case 0:
             gameDifficulty = .easy
-        } else {
+        case 1:
             gameDifficulty = .hard
+        default:
+            break
         }
-        saveSettings(gridSize: gridSize, cellSize: cellSize, gridSizeSegmentIndex: gridSizeSegmentIndex, difficultySegmentIndex: sender.selectedSegmentIndex)
+        
+        difficultySegmentIndex = sender.selectedSegmentIndex
+        saveSettings()
     }
     
-    
-    func saveSettings(gridSize: Int, cellSize: CGFloat, gridSizeSegmentIndex: Int, difficultySegmentIndex: Int) {
-        let defaults = UserDefaults.standard
+    func newGameView() {
+        print("новая игра")
+        playButton.isHidden = false
+        sizeControl.isHidden = false
         
-        // Сохранение значений
-        defaults.set(gridSize, forKey: "gridSize")
-        defaults.set(cellSize, forKey: "cellSize")
+        continueButton.isHidden = true
+        newPlayButton.isHidden = true
         
-        defaults.set(gridSizeSegmentIndex, forKey: "gridSizeSegmentIndex")
-        defaults.set(difficultySegmentIndex, forKey: "difficultySegmentIndex")
-        
-        defaults.synchronize()
+        if gameMode == .pvp {
+            difficultyControl.isHidden = true
+        } else {
+            difficultyControl.isHidden = false
+        }
     }
     
-    func loadSettings() {
-        let defaults = UserDefaults.standard
+    func continueGameView() {
+        print("продолжить игру")
+        playButton.isHidden = true
+        difficultyControl.isHidden = true
+        sizeControl.isHidden = true
         
-        // Загрузка сохраненных значений
-        gridSize = defaults.integer(forKey: "gridSize")
-        cellSize = CGFloat(defaults.float(forKey: "cellSize"))
-        
-        // Загрузка индексов выбранных сегментов
-        gridSizeSegmentIndex = defaults.integer(forKey: "gridSizeSegmentIndex")
-        difficultySegmentIndex = defaults.integer(forKey: "difficultySegmentIndex")
-        
-        // Установка значений в соответствующие свойства
-        sizeControl.selectedSegmentIndex = gridSizeSegmentIndex
-        difficultyControl.selectedSegmentIndex = difficultySegmentIndex
-        
-        // Установите gameDifficulty в соответствии с difficultySegmentIndex
-        if difficultySegmentIndex == 0 {
-            gameDifficulty = .easy
-        } else {
-            gameDifficulty = .hard
+        continueButton.isHidden = false
+        newPlayButton.isHidden = false
+    }
+    
+    func gameSettingsViewLoad() {
+        if gameState == .proceed {
+            continueGameView()
+        } else if gameState == .new {
+            newGameView()
         }
+    }
+    
+    private func loadSettings() {
+        do {
+            let data = try Data(contentsOf: settingsFilePath)
+            let pvpData = try Data(contentsOf: pvpSettingsFilePath)
+            let decoder = JSONDecoder()
+            let settings = try decoder.decode(GameSettings.self, from: data)
+            let pvpSettings = try decoder.decode(GameSettingsPvp.self, from: pvpData)
+            
+            if gameMode == .pve {
+                gridSize = settings.gridSize
+                cellSize = settings.cellSize
+                gameDifficulty = settings.gameDifficulty == "easy" ? .easy : .hard
+                gameState = settings.gameState == "new" ? .new : .proceed
+                gridSizeSegmentIndex = settings.gridSizeSegmentIndex
+                difficultySegmentIndex = settings.difficultySegmentIndex
+            } else {
+                gridSize = pvpSettings.gridSize
+                cellSize = pvpSettings.cellSize
+                gameState = pvpSettings.gameState == "new" ? .new : .proceed
+                gridSizeSegmentIndex = pvpSettings.gridSizeSegmentIndex
+            }
+            
+
+        } catch {
+            print("Не удалось загрузить настройки")
+        }
+    }
+
+    private func saveSettings() {
+        let setting = GameSettings(
+            gridSize: gridSize,
+            cellSize: cellSize,
+            gameDifficulty: gameDifficulty == .easy ? "easy" : "hard",
+            gameState: gameState == .new ? "new" : "proceed",
+            gridSizeSegmentIndex: gridSizeSegmentIndex,
+            difficultySegmentIndex: difficultySegmentIndex
+        )
+        
+        let pvpSettings = GameSettingsPvp(
+            gridSize: gridSize,
+            cellSize: cellSize,
+            gameState: gameState == .new ? "new" : "proceed",
+            gridSizeSegmentIndex: gridSizeSegmentIndex
+        )
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        do {
+            if gameMode == .pve {
+                let data = try encoder.encode(setting)
+                try data.write(to: settingsFilePath)
+            } else {
+                let data = try encoder.encode(pvpSettings)
+                try data.write(to: pvpSettingsFilePath)
+            }
+        } catch {
+            print("Не удалось сохранить настройки")
+        }
+    }
+    
+    private func newGame() {
+        let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
+        
+        vc.gameMode = gameMode
+        vc.gameDifficulty = gameDifficulty
+        vc.gameState = .new
+        
+        vc.gridSize = gridSize
+        vc.cellSize = cellSize
+        
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
     }
 }
 

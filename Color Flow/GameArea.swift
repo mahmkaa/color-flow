@@ -18,9 +18,18 @@ class GameArea: UIViewController {
     let mainMenu = ViewController()
     let gameSettings = GameSettingsViewController()
     
-    var gameMode: ViewController.GameMode = .pvp
+    var gameMode: GameSettingsViewController.GameMode = .pvp
     var gameDifficulty: GameSettingsViewController.Difficulty = .easy
-    var gameState: GameSettingsViewController.GameState = .new
+    
+    private var gameSessionFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("gameSession.json")
+    }
+    
+    private var pvpGameSessionFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("pvpGameSession.json")
+    }
     
     let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
     let colors1 = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"]
@@ -56,20 +65,29 @@ class GameArea: UIViewController {
     let playerMarker = UIImageView()
     let opponentMarker = UIImageView()
     
+    enum GameState {
+        case proceed
+        case new
+    }
+    
+    var gameState: GameState = .new
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        if gameState == .new {
-            setupGrid()
-            setupUI()
-            settingGameInterface()
-            randomStart()
-        } else if gameState == .proceed {
-            setupUI()
-            loadGameSession()
-            settingGameInterface()
-        }
-
+        print("\(gameState)")
         
+        setupGrid()
+        setupUI()
+        randomStart()
+        if gameState == .proceed {
+            loadGameSession()
+        }
+        settingGameInterface()
+        gameState = .proceed
+        gameSettings.gameState = .proceed
+        
+        print("\(gameSettings.gameState)")
+        print("\(gameState)")
         
         let swipeExit = UISwipeGestureRecognizer(target: self, action: #selector(confirmExit))
         swipeExit.direction = .right
@@ -728,6 +746,17 @@ class GameArea: UIViewController {
         defaults.synchronize()
     }
     
+    func saveGrid(_ grid: [[String]]){
+        let defaults = UserDefaults.standard
+        defaults.set(grid, forKey: "saveGrid")
+        defaults.synchronize()
+    }
+    
+    func loadGrid() -> [[String]]? {
+        let defaults = UserDefaults.standard
+        return defaults.array(forKey: "saveGrid") as? [[String]]
+    }
+    
     func loadGameSession() {
         let defaults = UserDefaults.standard
         
@@ -752,7 +781,8 @@ class GameArea: UIViewController {
         let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
         let vcSettings = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
         
-        vcSettings.gameState = .new
+        gameState = .new
+        vcSettings.gameState = gameState
         
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
@@ -764,9 +794,13 @@ class GameArea: UIViewController {
         let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
         let vcSettings = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
         
+        gameState = .proceed
         vcSettings.gameState = .proceed
+        vcSettings.state = .proceed
+        print("\(vcSettings.gameState)")
         
         saveGameSession()
+        saveGrid(grid)
         dismiss(animated: true)
 //        let alert = UIAlertController(
 //            title: "Хотите выйти?",

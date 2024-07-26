@@ -20,7 +20,6 @@ class ViewController: UIViewController {
         case pve
     }
     
-    
 //    var player: AVPlayer?
     
     let background = UIImageView()
