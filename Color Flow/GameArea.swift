@@ -17,9 +17,10 @@ class GameArea: UIViewController {
     let gameLogic = GameLogic()
     let mainMenu = ViewController()
     let gameSettings = GameSettingsViewController()
+    let continueView = ContinueViewController()
     
-    var gameMode: GameSettingsViewController.GameMode = .pvp
-    var gameDifficulty: GameSettingsViewController.Difficulty = .easy
+    var gameMode: GameMode = .pve
+    var gameDifficulty: Difficulty = .easy
     
     private var gameSessionFilePath: URL {
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -28,7 +29,22 @@ class GameArea: UIViewController {
     
     private var pvpGameSessionFilePath: URL {
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        return documentDirectory.appendingPathComponent("pvpGameSession.json")
+        return documentDirectory.appendingPathComponent("gameSessionPvp.json")
+    }
+    
+    private var gridFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("grid.json")
+    }
+    
+    private var settingsFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("gameSettings.json")
+    }
+    
+    private var pvpSettingsFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("pvpGameSettings.json")
     }
     
     let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
@@ -65,29 +81,25 @@ class GameArea: UIViewController {
     let playerMarker = UIImageView()
     let opponentMarker = UIImageView()
     
-    enum GameState {
-        case proceed
-        case new
-    }
-    
     var gameState: GameState = .new
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\(gameState)")
         
         setupGrid()
         setupUI()
-        randomStart()
-        if gameState == .proceed {
-            loadGameSession()
-        }
-        settingGameInterface()
-        gameState = .proceed
-        gameSettings.gameState = .proceed
         
-        print("\(gameSettings.gameState)")
-        print("\(gameState)")
+        if gameState == .proceed {
+            loadGameSession() // Загрузка сохраненной игры
+        } else {
+            randomStart() // Случайный старт, если игра новая
+        }
+        print("\(gameMode)")
+        settingGameInterface() // Настройка интерфейса после загрузки или случайного старта
+        gameState = .proceed
+        gameSettings.gameState = gameState
+        
+        print("\(currentPlayer)")
         
         let swipeExit = UISwipeGestureRecognizer(target: self, action: #selector(confirmExit))
         swipeExit.direction = .right
@@ -734,41 +746,122 @@ class GameArea: UIViewController {
     
     //MARK: - UserDefaults
     func saveGameSession() {
-        let defaults = UserDefaults.standard
-        
-        let gridArray = grid.map { $0 }
-        defaults.set(gridArray, forKey: "gridState")
-        
-        defaults.set(currentPlayer, forKey: "currentPlayer")
-        defaults.set(playerGameScore, forKey: "playerGameScore")
-        defaults.set(opponentGameScore, forKey: "opponentGameScore")
-        
-        defaults.synchronize()
-    }
-    
-    func saveGrid(_ grid: [[String]]){
-        let defaults = UserDefaults.standard
-        defaults.set(grid, forKey: "saveGrid")
-        defaults.synchronize()
-    }
-    
-    func loadGrid() -> [[String]]? {
-        let defaults = UserDefaults.standard
-        return defaults.array(forKey: "saveGrid") as? [[String]]
+        if gameMode == .pve {
+            let gameSession = GameSession(
+                grid: grid,
+                currentPlayer: currentPlayer,
+                playerGameScore: playerGameScore,
+                opponentGameScore: opponentGameScore
+            )
+            
+            save(gameSession, to: gameSessionFilePath)
+        } else {
+            let gameSessionPvp = GameSessionPvp(
+                grid: grid,
+                currentPlayer: currentPlayer,
+                playerGameScore: playerGameScore,
+                opponentGameScore: opponentGameScore
+            )
+            
+            save(gameSessionPvp, to: pvpGameSessionFilePath)
+        }
     }
     
     func loadGameSession() {
-        let defaults = UserDefaults.standard
-        
-        if let gridArray = defaults.array(forKey: "gridState") as? [[String]] {
-            grid = gridArray
+        // Определяем файл для загрузки в зависимости от режима игры
+        let filePath: URL
+        if gameMode == .pve {
+            filePath = gameSessionFilePath
+        } else {
+            filePath = pvpGameSessionFilePath
         }
         
-        currentPlayer = defaults.integer(forKey: "currentPlayer")
-        playerGameScore = defaults.integer(forKey: "playerGameScore")
-        opponentGameScore = defaults.integer(forKey: "opponentGameScore")
-        
-        updateGridView()
+        // Загружаем сессию в зависимости от режима игры
+        if let gameSession = load(from: filePath, as: GameSession.self) {
+            grid = gameSession.grid
+            currentPlayer = gameSession.currentPlayer
+            playerGameScore = gameSession.playerGameScore
+            opponentGameScore = gameSession.opponentGameScore
+            
+            // Обновляем интерфейс после загрузки
+            updateGridView()
+            updateScoreLabel()
+            updateOpponentScoreLabel()
+            disableButtonsForColors(playerButtons: stackView.arrangedSubviews as! [UIButton], opponentButtons: stackView1.arrangedSubviews as! [UIButton])
+            
+            // Если требуется включить или отключить определенные кнопки в зависимости от игрока
+            switch currentPlayer {
+            case 1:
+                print("p1")
+                disableButtonStack(stackView1.arrangedSubviews as! [UIButton])
+                playerMarker.isHidden = false
+            case 2:
+                print("p2")
+                disableButtonStack(stackView.arrangedSubviews as! [UIButton])
+                opponentMarker.isHidden = false
+            default:
+                print("Error")
+            }
+            
+            // Отключаем кнопки для текущего игрока, если это PvP режим
+            if gameMode == .pvp {
+                let currentPlayerButtons = currentPlayer == 1 ? stackView1.arrangedSubviews as! [UIButton] : stackView.arrangedSubviews as! [UIButton]
+                disableButtonsForColors(playerButtons: currentPlayerButtons, opponentButtons: currentPlayer == 1 ? stackView.arrangedSubviews as! [UIButton] : stackView1.arrangedSubviews as! [UIButton])
+            }
+        } else {
+            print("Не удалось загрузить игру")
+        }
+    }
+    
+    func saveGrid(_ grid: [[String]]){
+        save(grid, to: gridFilePath)
+    }
+    
+    func loadGrid() -> [[String]]? {
+        return load(from: gridFilePath, as: [[String]].self)
+    }
+    
+    private func saveState() {
+        if gameMode == .pve {
+            // Загружаем текущие настройки PVE
+            if var setting: GameSettings = load(from: settingsFilePath, as: GameSettings.self) {
+                // Обновляем только параметр gameState
+                setting.gameState = gameState == .new ? "new" : "proceed"
+                // Сохраняем обновленные настройки
+                save(setting, to: settingsFilePath)
+            }
+        } else {
+            // Загружаем текущие настройки PVP
+            if var pvpSettings: GameSettingsPvp = load(from: pvpSettingsFilePath, as: GameSettingsPvp.self) {
+                // Обновляем только параметр gameState
+                pvpSettings.gameState = gameState == .new ? "new" : "proceed"
+                // Сохраняем обновленные настройки
+                save(pvpSettings, to: pvpSettingsFilePath)
+            }
+        }
+    }
+    
+    private func save<T: Encodable>(_ object: T, to filePath: URL) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        do {
+            let data = try encoder.encode(object)
+            try data.write(to: filePath)
+        } catch {
+            print("Не удалось сохранить данные: \(error)")
+        }
+    }
+
+    private func load<T: Decodable>(from filePath: URL, as type: T.Type) -> T? {
+        do {
+            let data = try Data(contentsOf: filePath)
+            let decoder = JSONDecoder()
+            let object = try decoder.decode(type, from: data)
+            return object
+        } catch {
+            print("Не удалось загрузить данные: \(error)")
+            return nil
+        }
     }
     
     //MARK: - selectors
@@ -778,11 +871,11 @@ class GameArea: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
         
-        let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
-        let vcSettings = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
+//        let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
+//        let vcSettings = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
         
         gameState = .new
-        vcSettings.gameState = gameState
+        saveState()
         
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
@@ -791,17 +884,20 @@ class GameArea: UIViewController {
     
     @objc private func confirmExit() {
         print("tap exit")
-        let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
-        let vcSettings = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
+        let storyboardSettings = UIStoryboard(name: "ContinueViewController", bundle: nil)
+        let vc = storyboardSettings.instantiateViewController(withIdentifier: "ContinueViewController") as! ContinueViewController
         
         gameState = .proceed
-        vcSettings.gameState = .proceed
-        vcSettings.state = .proceed
-        print("\(vcSettings.gameState)")
+        saveState()
+        vc.gameMode = gameMode
+//        vcSettings.gameState = .proceed
         
         saveGameSession()
-        saveGrid(grid)
-        dismiss(animated: true)
+        
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
+//        dismiss(animated: true)
 //        let alert = UIAlertController(
 //            title: "Хотите выйти?",
 //            message: "Ваш прогресс не сохранится",
@@ -845,7 +941,6 @@ class GameArea: UIViewController {
         let opponentButtons = stackView1.arrangedSubviews as! [UIButton]
         stepByStep()
         disableButtonsForColors(playerButtons: playerButtons, opponentButtons: opponentButtons)
-        settingGameInterface()
         endGame()
         opponentAI()
         if gameMode == .pvp {

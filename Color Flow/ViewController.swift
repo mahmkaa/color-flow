@@ -15,11 +15,9 @@ class ViewController: UIViewController {
     var cellSize: CGFloat = 0.0
     
     //pvp/pve setting
-    enum GameMode {
-        case pvp
-        case pve
-    }
-    
+    var gameMode: GameMode = .pve
+    var gameState: GameState = .new
+    var gameStatePvp: GameState = .new
 //    var player: AVPlayer?
     
     let background = UIImageView()
@@ -41,6 +39,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        loadGameStates()
     }
 
     func setupUI() {
@@ -155,31 +154,45 @@ class ViewController: UIViewController {
     @objc private func pveButtonTap() {
         print("pvebutton tap tap")
         
-        let storyboard = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
-        
-        vc.gameMode = .pve
-        
-        vc.modalPresentationStyle = .fullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        self.present(vc, animated: true)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.background.stopAnimating()
-//        }
+        if gameState == .new {
+            let storyboard = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
+            if let vc = storyboard.instantiateViewController(withIdentifier: "GameSettingsViewController") as? GameSettingsViewController {
+                vc.gameMode = .pve
+                vc.modalPresentationStyle = .fullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: true)
+            }
+        } else {
+            let storyboardProceed = UIStoryboard(name: "ContinueViewController", bundle: nil)
+            if let vcProceed = storyboardProceed.instantiateViewController(withIdentifier: "ContinueViewController") as? ContinueViewController {
+                vcProceed.gameMode = .pve
+                vcProceed.modalPresentationStyle = .fullScreen
+                vcProceed.modalTransitionStyle = .crossDissolve
+                self.present(vcProceed, animated: true)
+            }
+        }
     }
     
     @objc private func pvpButtonTap() {
         print("pvpbutton tap tap")
         
-        let storyboard = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
-        
-        vc.gameMode = .pvp
-        
-        vc.modalPresentationStyle = .fullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        self.present(vc, animated: true)
+        if gameStatePvp == .new {
+            let storyboard = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
+            if let vc = storyboard.instantiateViewController(withIdentifier: "GameSettingsViewController") as? GameSettingsViewController {
+                vc.gameMode = .pvp
+                vc.modalPresentationStyle = .fullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: true)
+            }
+        } else {
+            let storyboardProceed = UIStoryboard(name: "ContinueViewController", bundle: nil)
+            if let vcProceed = storyboardProceed.instantiateViewController(withIdentifier: "ContinueViewController") as? ContinueViewController {
+                vcProceed.gameMode = .pvp
+                vcProceed.modalPresentationStyle = .fullScreen
+                vcProceed.modalTransitionStyle = .crossDissolve
+                self.present(vcProceed, animated: true)
+            }
+        }
     }
     
     @objc private func settingsButtonTap() {
@@ -304,6 +317,49 @@ class ViewController: UIViewController {
         area32x32.isHidden = false
         backArea.isHidden = false
     }
-
+    
+    private func load<T: Decodable>(from filePath: URL, as type: T.Type) -> T? {
+        do {
+            let data = try Data(contentsOf: filePath)
+            let decoder = JSONDecoder()
+            let object = try decoder.decode(type, from: data)
+            return object
+        } catch {
+            print("Не удалось загрузить данные: \(error)")
+            return nil
+        }
+    }
+    
+    private func loadSingleValue<T: Decodable, U>(from filePath: URL, as type: T.Type, keyPath: KeyPath<T, U>) -> U? {
+        do {
+            let data = try Data(contentsOf: filePath)
+            let decoder = JSONDecoder()
+            let object = try decoder.decode(type, from: data)
+            return object[keyPath: keyPath]
+        } catch {
+            print("Не удалось загрузить данные: \(error)")
+            return nil
+        }
+    }
+    
+    private var settingsFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("gameSettings.json")
+    }
+    
+    private var pvpSettingsFilePath: URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentDirectory.appendingPathComponent("pvpGameSettings.json")
+    }
+    
+    func loadGameStates() {
+        if let gamePvpStateString: String = loadSingleValue(from: pvpSettingsFilePath, as: GameSettingsPvp.self, keyPath: \.gameState) {
+            gameStatePvp = (gamePvpStateString == "new") ? .new : .proceed
+        }
+        
+        if let gameStateString: String = loadSingleValue(from: settingsFilePath, as: GameSettings.self, keyPath: \.gameState) {
+            gameState = (gameStateString == "new") ? .new : .proceed
+        }
+    }
 }
 

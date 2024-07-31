@@ -15,20 +15,9 @@ class GameSettingsViewController: UIViewController {
     var cellSize: CGFloat = 45.0
     var gameMode: GameMode = .pve
     var gameDifficulty: Difficulty = .easy
-    var state: GameArea.GameState = .new
-    var gameState: GameArea.GameState = .new
+    var gameState: GameState = .new
     var gridSizeSegmentIndex = 0
     var difficultySegmentIndex = 0
-    
-    enum GameMode {
-        case pvp
-        case pve
-    }
-    
-    enum Difficulty {
-        case easy
-        case hard
-    }
     
     private var settingsFilePath: URL {
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -64,12 +53,15 @@ class GameSettingsViewController: UIViewController {
         super.viewDidLoad()
         print("\(gameState)")
         
-        gameState = state
         
         loadSettings()
         setupUI()
-        gameSettingsViewLoad()
         
+        if gameState == .new {
+            newGameView()
+        }
+        
+        print("\(gameState)")
         print("\(gameMode)")
         
         let swipeExit = UISwipeGestureRecognizer(target: self, action: #selector(backButtonTap))
@@ -223,10 +215,13 @@ class GameSettingsViewController: UIViewController {
         vc.gameMode = gameMode
         vc.gameDifficulty = gameDifficulty
         vc.gameState = .proceed
-        state = .proceed
+        gameState = .proceed
         
         vc.gridSize = gridSize
         vc.cellSize = cellSize
+        
+        continueGameView()
+        saveSettings()
         
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
@@ -248,13 +243,17 @@ class GameSettingsViewController: UIViewController {
         vc.gridSize = gridSize
         vc.cellSize = cellSize
         
+        gameState = .proceed
+        saveSettings()
+        
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         self.present(vc, animated: true)
     }
     
     @objc func resetSetting() {
-        state = .new
+        gameState = .new
+        saveSettings()
         newGameView()
     }
     
@@ -266,7 +265,9 @@ class GameSettingsViewController: UIViewController {
         
         vc.background.startAnimating()
         
-        self.dismiss(animated: true)
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.background.stopAnimating()

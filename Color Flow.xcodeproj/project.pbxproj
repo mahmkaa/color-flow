@@ -25,7 +25,11 @@
 		EA803FA12C52618000C74D06 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA803FA02C52618000C74D06 /* GameSession.swift */; };
 		EAAE186F2BC54DED00D8B292 /* GameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE186E2BC54DED00D8B292 /* GameArea.swift */; };
 		EAAE18712BC54E1300D8B292 /* GameArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAAE18702BC54E1300D8B292 /* GameArea.storyboard */; };
+		EAAE2A4D2C5AA65A00CE032C /* GameSessionPvp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE2A4C2C5AA65A00CE032C /* GameSessionPvp.swift */; };
 		EAAE58082C53A72300430EC8 /* GameSettingsPvp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE58072C53A72300430EC8 /* GameSettingsPvp.swift */; };
+		EAAE580B2C540FC700430EC8 /* ContinueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE580A2C540FC700430EC8 /* ContinueViewController.swift */; };
+		EAAE580D2C540FF600430EC8 /* ContinueViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAAE580C2C540FF600430EC8 /* ContinueViewController.storyboard */; };
+		EAAE580F2C54F76B00430EC8 /* GameEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE580E2C54F76B00430EC8 /* GameEnums.swift */; };
 		EAF28E1C2BC961F1002A8BD0 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */; };
 		EAF28E1E2BC9632C002A8BD0 /* LoadGameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */; };
 		EAF28E202BC96B00002A8BD0 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */; };
@@ -54,7 +58,11 @@
 		EA803FA02C52618000C74D06 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
 		EAAE186E2BC54DED00D8B292 /* GameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameArea.swift; sourceTree = "<group>"; };
 		EAAE18702BC54E1300D8B292 /* GameArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameArea.storyboard; sourceTree = "<group>"; };
+		EAAE2A4C2C5AA65A00CE032C /* GameSessionPvp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionPvp.swift; sourceTree = "<group>"; };
 		EAAE58072C53A72300430EC8 /* GameSettingsPvp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsPvp.swift; sourceTree = "<group>"; };
+		EAAE580A2C540FC700430EC8 /* ContinueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueViewController.swift; sourceTree = "<group>"; };
+		EAAE580C2C540FF600430EC8 /* ContinueViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContinueViewController.storyboard; sourceTree = "<group>"; };
+		EAAE580E2C54F76B00430EC8 /* GameEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnums.swift; sourceTree = "<group>"; };
 		EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGameArea.swift; sourceTree = "<group>"; };
 		EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
@@ -92,6 +100,7 @@
 		EA20CF4C2BD03BA500CF6A6B /* trash */ = {
 			isa = PBXGroup;
 			children = (
+				EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */,
 				EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */,
 				EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */,
 			);
@@ -124,16 +133,15 @@
 				EA5E30D029E1A8C00025BDBB /* ViewController.swift */,
 				EA5E30D229E1A8C00025BDBB /* Main.storyboard */,
 				EA7497432BDD256800AD8262 /* GameSettingsViewController.swift */,
-				EA4F9C382C514D7D003121E8 /* GameSettings.swift */,
-				EAAE58072C53A72300430EC8 /* GameSettingsPvp.swift */,
-				EA803FA02C52618000C74D06 /* GameSession.swift */,
 				EA7497472BDD3AAC00AD8262 /* GameSettingsViewController.storyboard */,
+				EAAE580A2C540FC700430EC8 /* ContinueViewController.swift */,
+				EAAE580C2C540FF600430EC8 /* ContinueViewController.storyboard */,
 				EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */,
 				EAAE186E2BC54DED00D8B292 /* GameArea.swift */,
 				EAAE18702BC54E1300D8B292 /* GameArea.storyboard */,
-				EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */,
 				EA5E30D729E1A8C10025BDBB /* LaunchScreen.storyboard */,
 				EA5E30DA29E1A8C10025BDBB /* Info.plist */,
+				EAAE58092C540F1E00430EC8 /* save */,
 				EA63AAFA2BDBDB040079BF76 /* Resources */,
 				EA20CF4C2BD03BA500CF6A6B /* trash */,
 			);
@@ -150,6 +158,18 @@
 				EA63AAF92BDBDB040079BF76 /* PIXY.ttf */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		EAAE58092C540F1E00430EC8 /* save */ = {
+			isa = PBXGroup;
+			children = (
+				EAAE580E2C54F76B00430EC8 /* GameEnums.swift */,
+				EA4F9C382C514D7D003121E8 /* GameSettings.swift */,
+				EAAE58072C53A72300430EC8 /* GameSettingsPvp.swift */,
+				EA803FA02C52618000C74D06 /* GameSession.swift */,
+				EAAE2A4C2C5AA65A00CE032C /* GameSessionPvp.swift */,
+			);
+			path = save;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,6 +240,7 @@
 				EA7497482BDD3AAC00AD8262 /* GameSettingsViewController.storyboard in Resources */,
 				EA63AAFD2BDBDB040079BF76 /* backGif.gif in Resources */,
 				EA63AAFC2BDBDB040079BF76 /* back1.gif in Resources */,
+				EAAE580D2C540FF600430EC8 /* ContinueViewController.storyboard in Resources */,
 				EA63AAFE2BDBDB040079BF76 /* backWater.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,11 +294,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAAE580B2C540FC700430EC8 /* ContinueViewController.swift in Sources */,
 				EA803FA12C52618000C74D06 /* GameSession.swift in Sources */,
 				EA20CF4B2BCEE37500CF6A6B /* TestClass.swift in Sources */,
 				EAAE186F2BC54DED00D8B292 /* GameArea.swift in Sources */,
 				EA4F9C392C514D7D003121E8 /* GameSettings.swift in Sources */,
 				EA5E30D129E1A8C00025BDBB /* ViewController.swift in Sources */,
+				EAAE580F2C54F76B00430EC8 /* GameEnums.swift in Sources */,
 				EAF28E1E2BC9632C002A8BD0 /* LoadGameArea.swift in Sources */,
 				EA5E30CD29E1A8C00025BDBB /* AppDelegate.swift in Sources */,
 				EA7497442BDD256800AD8262 /* GameSettingsViewController.swift in Sources */,
@@ -285,6 +308,7 @@
 				EAAE58082C53A72300430EC8 /* GameSettingsPvp.swift in Sources */,
 				EA5E30CF29E1A8C00025BDBB /* SceneDelegate.swift in Sources */,
 				EAF28E202BC96B00002A8BD0 /* GameCell.swift in Sources */,
+				EAAE2A4D2C5AA65A00CE032C /* GameSessionPvp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
