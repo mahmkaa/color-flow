@@ -921,7 +921,7 @@ class GameArea: UIViewController {
     @objc func colorButtonTap(_ sender: UIButton) {
         let colorIndex = sender.tag
         let colorName = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"][colorIndex]
-        print("Color button tapped: \(colorName)")
+        //print("Color button tapped: \(colorName)")
         
         let startRow = 0
         let startColumn = 0
@@ -932,7 +932,7 @@ class GameArea: UIViewController {
         previousPlayerColor = grid[startRow][startColumn]
         previousOpponentColor = grid[gridSize - 1][gridSize - 1]
         
-        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName)
+        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName, ownership: 1)
         
         updateGridView()
         updateScoreLabel()
@@ -951,7 +951,7 @@ class GameArea: UIViewController {
     @objc func colorButtonTap1(_ sender: UIButton) {
         let colorIndex = sender.tag
         let colorName = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"][colorIndex]
-        print("Color button tapped: \(colorName)")
+        //print("Color button tapped: \(colorName)")
         
         let startRow = gridSize - 1
         let startColumn = gridSize - 1
@@ -962,7 +962,7 @@ class GameArea: UIViewController {
         previousPlayerColor = grid[startRow][startColumn]
         previousOpponentColor = grid[gridSize - 1][gridSize - 1]
         
-        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName)
+        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName, ownership: 2)
         
         updateGridView()
         updateOpponentScoreLabel()

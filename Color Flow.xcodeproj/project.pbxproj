@@ -190,6 +190,8 @@
 			dependencies = (
 			);
 			name = "Color Flow";
+			packageProductDependencies = (
+			);
 			productName = "Color Flow";
 			productReference = EA5E30C929E1A8C00025BDBB /* Color Flow.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +220,8 @@
 				Base,
 			);
 			mainGroup = EA5E30C029E1A8C00025BDBB;
+			packageReferences = (
+			);
 			productRefGroup = EA5E30CA29E1A8C00025BDBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

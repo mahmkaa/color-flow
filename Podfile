@@ -4,4 +4,5 @@ use_frameworks!
 
 target 'Color Flow' do
     pod 'SnapKit', '~> 5.7.1'
+    pod 'swift-collections'
 end

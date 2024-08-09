@@ -1,16 +1,38 @@
 PODS:
+  - InternalCollectionsUtilities (1.1.1)
   - SnapKit (5.7.1)
+  - swift-collections (1.1.1):
+    - swift-collections/BitCollections (= 1.1.1)
+    - swift-collections/DequeModule (= 1.1.1)
+    - swift-collections/HashTreeCollections (= 1.1.1)
+    - swift-collections/HeapModule (= 1.1.1)
+    - swift-collections/OrderedCollections (= 1.1.1)
+  - swift-collections/BitCollections (1.1.1):
+    - InternalCollectionsUtilities (= 1.1.1)
+  - swift-collections/DequeModule (1.1.1):
+    - InternalCollectionsUtilities (= 1.1.1)
+  - swift-collections/HashTreeCollections (1.1.1):
+    - InternalCollectionsUtilities (= 1.1.1)
+  - swift-collections/HeapModule (1.1.1):
+    - InternalCollectionsUtilities (= 1.1.1)
+  - swift-collections/OrderedCollections (1.1.1):
+    - InternalCollectionsUtilities (= 1.1.1)
 
 DEPENDENCIES:
   - SnapKit (~> 5.7.1)
+  - swift-collections
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - InternalCollectionsUtilities
     - SnapKit
+    - swift-collections
 
 SPEC CHECKSUMS:
+  InternalCollectionsUtilities: af3f471602c4a67cbcb0bee0a80f6f55a33ae453
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
+  swift-collections: ba248ecaf44ef500b27d5cf94d304218c89892ff
 
-PODFILE CHECKSUM: 2b3b55e66ce74a65c90b2a271bfd03f7af0ce4de
+PODFILE CHECKSUM: 3e377d9aeda98712562d512e148a03f194dc4186
 
 COCOAPODS: 1.15.2
