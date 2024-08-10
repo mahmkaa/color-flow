@@ -110,6 +110,13 @@ class GameLogic {
 //    }
     //алгоритм в ширину
     func findConnectedCells(grid: [[String]], row: Int, column: Int, ownership: Int) -> Set<Coordinate> {
+        let startCoordinate = Coordinate(row, column)
+        
+//        // Проверка в кэше: если результат для этой стартовой клетки уже вычислен, используем его
+//        if let cachedResult = cache[startCoordinate] {
+//            return cachedResult
+//        }
+        
         var connectedCells = Set<Coordinate>()
         let targetColor = grid[row][column]
         var visited = Set<Coordinate>()
@@ -120,45 +127,55 @@ class GameLogic {
         while !queue.isEmpty {
             let (currentRow, currentColumn) = queue.removeFirst()
             
-            guard currentRow >= 0 && currentRow < grid.count &&
-                  currentColumn >= 0 && currentColumn < grid[currentRow].count else {
+            // Проверка границ сетки
+            guard currentRow >= 0 && currentRow < grid.count && currentColumn >= 0 && currentColumn < grid[currentRow].count else {
                 continue
             }
             
             let currentCoordinate = Coordinate(currentRow, currentColumn)
             
+            // Пропускаем уже посещенные клетки
             if visited.contains(currentCoordinate) {
                 continue
             }
             
-            if grid[currentRow][currentColumn] != targetColor &&
-               ownershipMap[currentRow][currentColumn] != ownership {
+            // Если цвет не совпадает или клетка принадлежит другому игроку, пропускаем клетку
+            if grid[currentRow][currentColumn] != targetColor && ownershipMap[currentRow][currentColumn] != ownership {
                 continue
             }
             
+            // Помечаем клетку как посещенную и добавляем в connectedCells
             visited.insert(currentCoordinate)
             connectedCells.insert(currentCoordinate)
             
+            // Добавляем соседние клетки в очередь
             queue.append((currentRow + 1, currentColumn))
             queue.append((currentRow - 1, currentColumn))
             queue.append((currentRow, currentColumn + 1))
             queue.append((currentRow, currentColumn - 1))
         }
         
+//        // Сохраняем результат в кэш
+//        cache[startCoordinate] = connectedCells
+        
         return connectedCells
     }
 
-    // Обновление цветов клеток и карты владения
+
+
     func updateCellColors(grid: inout [[String]], row: Int, column: Int, newColor: String, ownership: Int) {
         guard row >= 0 && row < grid.count && column >= 0 && column < grid[row].count else {
             return
         }
         
-        let targetColor = grid[row][column]
-        print("Цвет стартовой клетки: \(targetColor)")
+//        // Очистка кэша перед обновлением цветов
+//        cache.removeAll()
         
         let connectedCells = findConnectedCells(grid: grid, row: row, column: column, ownership: ownership)
         
+        //print("Обновляем клетки: \(connectedCells)")
+        
+        // Обновляем цвета и проверяем владение клетками
         for coordinate in connectedCells {
             grid[coordinate.row][coordinate.column] = newColor
             ownershipMap[coordinate.row][coordinate.column] = ownership

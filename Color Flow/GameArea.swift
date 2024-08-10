@@ -83,6 +83,8 @@ class GameArea: UIViewController {
     
     var gameState: GameState = .new
     
+    var isGameOver = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -506,7 +508,6 @@ class GameArea: UIViewController {
         gridStackView = stackView
         view.addSubview(gridStackView ?? stackView)
         
-        
         grid = gameLogic.fillGridRandomly(gridSize: gridSize)
         
         for row in grid {
@@ -572,12 +573,15 @@ class GameArea: UIViewController {
         let playerCellCount = gameLogic.countPlayerCells(grid: grid)
         let opponentCellCount = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
         
-        // Подсчет общей площади арены и количества захваченных клеток
-        let arenaArea = gridSize * gridSize
-        let playersSum = playerCellCount + opponentCellCount
+        // Подсчет общей площади арены
+        let totalCellCount = gridSize * gridSize
         
-        // Проверка условия окончания игры
-        if arenaArea == playersSum {
+        // Подсчет процента захваченных клеток
+        let playerPercentage = Double(playerCellCount) / Double(totalCellCount) * 100
+        let opponentPercentage = Double(opponentCellCount) / Double(totalCellCount) * 100
+        
+        // Проверка, захватил ли один из игроков 51% или более клеток
+        if playerPercentage >= 51.0 || opponentPercentage >= 51.0 {
             // Скрытие счетчиков
             scoreLabelP2.isHidden = true
             scoreLabelP1.isHidden = true
@@ -591,6 +595,8 @@ class GameArea: UIViewController {
             
             // Установка сетки в полупрозрачный режим
             gridStackView?.alpha = 0.5
+            
+            isGameOver = true
             
             // Вызов метода, который может отображать сообщение о конце игры или переходить к новому уровню
             endGameMessage()  // Дополнительный метод для показа сообщения об окончании игры
@@ -644,7 +650,7 @@ class GameArea: UIViewController {
     func disableButtonStack(_ buttons: [UIButton]){
         for button in buttons {
             button.isEnabled = false
-            button.alpha = 0.5
+            button.alpha = 0.4
         }
     }
     
@@ -653,6 +659,10 @@ class GameArea: UIViewController {
             button.isEnabled = true
             button.alpha = 1.0
         }
+    }
+    
+    func blockUserInteraction(_ block: Bool) {
+        view.isUserInteractionEnabled = !block
     }
     
     //MARK: - stepByStep
@@ -715,32 +725,48 @@ class GameArea: UIViewController {
             return
         }
         
-        // Получаем массив кнопок игрока 2 (противника)
-        let player2Buttons = stackView1.arrangedSubviews as! [UIButton]
-        
-        // Выбираем цвет на основе уровня сложности
-        let chosenColor: String?
-        if gameDifficulty == .easy {
-            chosenColor = gameLogic.easyDifficultyAI(grid: &grid, gridSize: gridSize)
-        } else {
-            chosenColor = gameLogic.hardDifficultyAI(grid: &grid, gridSize: gridSize)
-        }
-        
-        // Проверяем, удалось ли противнику выбрать цвет
-        guard let color = chosenColor else {
-            print("Противник не смог выбрать цвет")
+        if isGameOver == true {
             return
         }
         
-        // Находим индекс выбранного цвета в массиве colors1
-        guard let chosenIndex = colors1.firstIndex(of: color), chosenIndex < player2Buttons.count else {
-            print("Цвет не найден в colors1 или индекс вне диапазона массива кнопок")
-            return
-        }
+        // Добавляем задержку перед ходом противника
+        let delay: TimeInterval = 0.5 // Задержка в 1 секунду
         
-        // Вызываем действие нажатия на выбранную кнопку
-        let chosenButton = player2Buttons[chosenIndex]
-        chosenButton.sendActions(for: .touchUpInside)
+        // Блокируем пользовательский интерфейс
+        blockUserInteraction(true)
+        disableButtonStack(stackView.arrangedSubviews as! [UIButton])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            // Получаем массив кнопок игрока 2 (противника)
+            let player2Buttons = self.stackView1.arrangedSubviews as! [UIButton]
+            
+            // Выбираем цвет на основе уровня сложности
+            let chosenColor: String?
+            if self.gameDifficulty == .easy {
+                chosenColor = self.gameLogic.easyDifficultyAI(grid: &self.grid, gridSize: self.gridSize)
+            } else {
+                chosenColor = self.gameLogic.hardDifficultyAI(grid: &self.grid, gridSize: self.gridSize)
+            }
+            
+            // Проверяем, удалось ли противнику выбрать цвет
+            guard let color = chosenColor else {
+                print("Противник не смог выбрать цвет")
+                return
+            }
+            
+            // Находим индекс выбранного цвета в массиве colors1
+            guard let chosenIndex = self.colors1.firstIndex(of: color), chosenIndex < player2Buttons.count else {
+                print("Цвет не найден в colors1 или индекс вне диапазона массива кнопок")
+                return
+            }
+            
+            // Вызываем действие нажатия на выбранную кнопку
+            let chosenButton = player2Buttons[chosenIndex]
+            chosenButton.sendActions(for: .touchUpInside)
+            
+            // Разблокируем пользовательский интерфейс
+            self.blockUserInteraction(false)
+        }
     }
     
     
