@@ -96,6 +96,8 @@ class GameArea: UIViewController {
         } else {
             randomStart() // Случайный старт, если игра новая
         }
+        saveGameSession()
+        
         print("\(gameMode)")
         settingGameInterface() // Настройка интерфейса после загрузки или случайного старта
         gameState = .proceed
@@ -539,18 +541,35 @@ class GameArea: UIViewController {
     }
     
     //MARK: - updateGridView
-    func updateGridView() {
-        // Проходим по всем клеткам сетки
-        for (index, cell) in cells.enumerated() {
-            // Получаем соответствующий цвет из сетки
-            let row = index / gridSize
-            let column = index % gridSize
-            let colorName = grid[row][column]
-            
-            // Устанавливаем цвет клетки в соответствии с данными в сетке
-            cell.backgroundColor = UIColor(named: colorName)
+    func updateGridView(changedCells: [(row: Int, column: Int)]? = nil) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            var updates: [(index: Int, color: UIColor?)] = []
+
+            if let changedCells = changedCells {
+                for cellCoordinate in changedCells {
+                    let index = cellCoordinate.row * self.gridSize + cellCoordinate.column
+                    let colorName = self.grid[cellCoordinate.row][cellCoordinate.column]
+                    let color = UIColor(named: colorName)
+                    updates.append((index: index, color: color))
+                }
+            } else {
+                for (index, cell) in self.cells.enumerated() {
+                    let row = index / self.gridSize
+                    let column = index % self.gridSize
+                    let colorName = self.grid[row][column]
+                    let color = UIColor(named: colorName)
+                    updates.append((index: index, color: color))
+                }
+            }
+
+            DispatchQueue.main.async {
+                for update in updates {
+                    self.cells[update.index].backgroundColor = update.color
+                }
+            }
         }
     }
+
     
     //MARK: - scoreLabels
     func updateScoreLabel() {
@@ -581,7 +600,7 @@ class GameArea: UIViewController {
         let opponentPercentage = Double(opponentCellCount) / Double(totalCellCount) * 100
         
         // Проверка, захватил ли один из игроков 51% или более клеток
-        if playerPercentage >= 51.0 || opponentPercentage >= 51.0 {
+        if playerPercentage >= 55.0 || opponentPercentage >= 55.0 || playerCellCount + opponentCellCount == totalCellCount {
             // Скрытие счетчиков
             scoreLabelP2.isHidden = true
             scoreLabelP1.isHidden = true
@@ -607,6 +626,9 @@ class GameArea: UIViewController {
         let playerCellCount = gameLogic.countPlayerCells(grid: grid)
         let opponentCellCount = gameLogic.countOpponentCells(gridSize: gridSize, grid: grid)
         
+        gameState = .new
+        saveState()
+        
         endGameButton.isHidden = false
         endGameLabelP1.isHidden = false
         if gameMode == .pvp {
@@ -616,9 +638,12 @@ class GameArea: UIViewController {
         if playerCellCount < opponentCellCount {
             endGameLabelP1.text = "You lose 😔\nYour score: \(playerCellCount)"
             endGameLabelP2.text = "You WON! 🥳\nYour score: \(opponentCellCount)"
-        } else {
+        } else if playerCellCount > opponentCellCount {
             endGameLabelP1.text = "You WON! 🥳\nYour score: \(playerCellCount)"
             endGameLabelP2.text = "You lose 😔\nYour score: \(opponentCellCount)"
+        } else {
+            endGameLabelP1.text = "Unbelievable, a draw!"
+            endGameLabelP2.text = "Unbelievable, a draw!"
         }
     }
     
@@ -730,7 +755,7 @@ class GameArea: UIViewController {
         }
         
         // Добавляем задержку перед ходом противника
-        let delay: TimeInterval = 0.5 // Задержка в 1 секунду
+        let delay: TimeInterval = 0.7 // Задержка в 1 секунду
         
         // Блокируем пользовательский интерфейс
         blockUserInteraction(true)
@@ -947,20 +972,16 @@ class GameArea: UIViewController {
     @objc func colorButtonTap(_ sender: UIButton) {
         let colorIndex = sender.tag
         let colorName = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"][colorIndex]
-        //print("Color button tapped: \(colorName)")
-        
+
         let startRow = 0
         let startColumn = 0
-        
-        //        startRow = gridSize - 1
-        //        startColumn = gridSize - 1
         
         previousPlayerColor = grid[startRow][startColumn]
         previousOpponentColor = grid[gridSize - 1][gridSize - 1]
         
-        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName, ownership: 1)
+        let changedCells = gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName, ownership: 1)
         
-        updateGridView()
+        updateGridView(changedCells: changedCells)
         updateScoreLabel()
         
         let playerButtons = stackView.arrangedSubviews as! [UIButton]
@@ -973,24 +994,20 @@ class GameArea: UIViewController {
             disableButtonStack(stackView.arrangedSubviews as! [UIButton])
         }
     }
-    
+
     @objc func colorButtonTap1(_ sender: UIButton) {
         let colorIndex = sender.tag
         let colorName = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"][colorIndex]
-        //print("Color button tapped: \(colorName)")
-        
+
         let startRow = gridSize - 1
         let startColumn = gridSize - 1
-        
-        //        startRow = gridSize - 1
-        //        startColumn = gridSize - 1
         
         previousPlayerColor = grid[startRow][startColumn]
         previousOpponentColor = grid[gridSize - 1][gridSize - 1]
         
-        gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName, ownership: 2)
+        let changedCells = gameLogic.updateCellColors(grid: &grid, row: startRow, column: startColumn, newColor: colorName, ownership: 2)
         
-        updateGridView()
+        updateGridView(changedCells: changedCells)
         updateOpponentScoreLabel()
         
         let playerButtons = stackView.arrangedSubviews as! [UIButton]

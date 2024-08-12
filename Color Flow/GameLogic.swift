@@ -110,7 +110,7 @@ class GameLogic {
 //    }
     //алгоритм в ширину
     func findConnectedCells(grid: [[String]], row: Int, column: Int, ownership: Int) -> Set<Coordinate> {
-        let startCoordinate = Coordinate(row, column)
+        //let startCoordinate = Coordinate(row, column)
         
 //        // Проверка в кэше: если результат для этой стартовой клетки уже вычислен, используем его
 //        if let cachedResult = cache[startCoordinate] {
@@ -163,23 +163,25 @@ class GameLogic {
 
 
 
-    func updateCellColors(grid: inout [[String]], row: Int, column: Int, newColor: String, ownership: Int) {
+    func updateCellColors(grid: inout [[String]], row: Int, column: Int, newColor: String, ownership: Int) -> [(row: Int, column: Int)] {
         guard row >= 0 && row < grid.count && column >= 0 && column < grid[row].count else {
-            return
+            return []
         }
-        
-//        // Очистка кэша перед обновлением цветов
-//        cache.removeAll()
         
         let connectedCells = findConnectedCells(grid: grid, row: row, column: column, ownership: ownership)
         
-        //print("Обновляем клетки: \(connectedCells)")
+        var changedCells: [(row: Int, column: Int)] = []
         
         // Обновляем цвета и проверяем владение клетками
         for coordinate in connectedCells {
-            grid[coordinate.row][coordinate.column] = newColor
-            ownershipMap[coordinate.row][coordinate.column] = ownership
+            if grid[coordinate.row][coordinate.column] != newColor {
+                grid[coordinate.row][coordinate.column] = newColor
+                ownershipMap[coordinate.row][coordinate.column] = ownership
+                changedCells.append((row: coordinate.row, column: coordinate.column))
+            }
         }
+        
+        return changedCells
     }
     
     func countPlayerCells(grid: [[String]]) -> Int {
@@ -242,7 +244,7 @@ class GameLogic {
         for color in availableColors {
             var simulatedGrid = grid
             
-            updateCellColors(grid: &simulatedGrid, row: gridSize - 1, column: gridSize - 1, newColor: color, ownership: 2)
+            _ = updateCellColors(grid: &simulatedGrid, row: gridSize - 1, column: gridSize - 1, newColor: color, ownership: 2)
             
             let opponentControlledCells = countOpponentCells(gridSize: gridSize, grid: simulatedGrid)
             
