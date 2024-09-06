@@ -6,6 +6,7 @@
 //
 
 import UIKit
+//import AudioToolbox
 //import AVFoundation
 import SnapKit
 
@@ -18,7 +19,9 @@ class ViewController: UIViewController {
     var gameMode: GameMode = .pve
     var gameState: GameState = .new
     var gameStatePvp: GameState = .new
+    
 //    var player: AVPlayer?
+//    var audioPlayer: AVAudioPlayer?
     
     let background = UIImageView()
     
@@ -93,6 +96,12 @@ class ViewController: UIViewController {
 //        
 //        player?.play()
         
+        let logoImage = UIImageView(image: UIImage(named: "logo4"))
+        logoImage.frame = CGRect(x: 0, y: 0, width: 300, height: 200)
+        logoImage.contentMode = .scaleAspectFit
+        logoImage.isHidden = true
+        view.addSubview(logoImage)
+        
         //кнопка пве
         let pveButton = pve
         pveButton.setTitle("PvE", for: .normal)
@@ -129,6 +138,13 @@ class ViewController: UIViewController {
             make.edges.equalToSuperview()
         }
         
+        logoImage.snp.makeConstraints { make in
+            make.width.equalTo(240)
+            make.height.equalTo(150)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-220)
+        }
+        
         pveButton.snp.makeConstraints { make in
             make.width.equalTo(150)
             make.height.equalTo(50)
@@ -153,6 +169,7 @@ class ViewController: UIViewController {
     //selectors
     @objc private func pveButtonTap() {
         print("pvebutton tap tap")
+        SoundManager.shared.playSound(named: "click")
         
         if gameState == .new {
             let storyboard = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
@@ -175,6 +192,7 @@ class ViewController: UIViewController {
     
     @objc private func pvpButtonTap() {
         print("pvpbutton tap tap")
+        SoundManager.shared.playSound(named: "click")
         
         if gameStatePvp == .new {
             let storyboard = UIStoryboard(name: "GameSettingsViewController", bundle: nil)

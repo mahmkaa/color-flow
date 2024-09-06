@@ -29,7 +29,7 @@ struct Coordinate: Hashable {
 }
 
 class GameLogic {
-    let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
+    let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "red1"]
     var ownershipMap: [[Int]] = []  // 0 - ничья, 1 - игрок, 2 - противник
     var cache = [Coordinate: Set<Coordinate>]()
 

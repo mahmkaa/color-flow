@@ -208,6 +208,7 @@ class GameSettingsViewController: UIViewController {
         print("play tap")
         print("\(gameDifficulty)")
         print("\(gridSize)")
+        SoundManager.shared.playSound(named: "click")
         
         let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
@@ -232,6 +233,7 @@ class GameSettingsViewController: UIViewController {
         print("play tap")
         print("\(gameDifficulty)")
         print("\(gridSize)")
+        SoundManager.shared.playSound(named: "click")
         
         let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
@@ -252,6 +254,7 @@ class GameSettingsViewController: UIViewController {
     }
     
     @objc func resetSetting() {
+        SoundManager.shared.playSound(named: "click")
         gameState = .new
         saveSettings()
         newGameView()
@@ -259,6 +262,7 @@ class GameSettingsViewController: UIViewController {
     
     @objc func backButtonTap() {
         print("back tap/swipe")
+        SoundManager.shared.playSound(named: "click")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
@@ -275,6 +279,7 @@ class GameSettingsViewController: UIViewController {
     }
     
     @objc func gridSizeChanged(_ sender: UISegmentedControl) {
+        SoundManager.shared.playSound(named: "click")
         switch sender.selectedSegmentIndex {
         case 0:
             gridSize = 8
@@ -294,6 +299,7 @@ class GameSettingsViewController: UIViewController {
     }
     
     @objc func difficultyChanged(_ sender: UISegmentedControl) {
+        SoundManager.shared.playSound(named: "click")
         switch sender.selectedSegmentIndex {
         case 0:
             gameDifficulty = .easy

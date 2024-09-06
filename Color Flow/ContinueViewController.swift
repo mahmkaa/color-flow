@@ -193,6 +193,7 @@ class ContinueViewController: UIViewController {
     
     @objc func playButtonTap() {
         print("play tap")
+        SoundManager.shared.playSound(named: "click")
         
         let storyboard = UIStoryboard(name: "GameArea", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "GameArea") as! GameArea
@@ -211,6 +212,7 @@ class ContinueViewController: UIViewController {
     }
     
     @objc func resetSetting() {
+        SoundManager.shared.playSound(named: "click")
         let storyboardSettings = UIStoryboard(name: "GameSettingsViewController", bundle: nil)
         let vc = storyboardSettings.instantiateViewController(withIdentifier: "GameSettingsViewController") as! GameSettingsViewController
         gameState = .new
@@ -230,6 +232,7 @@ class ContinueViewController: UIViewController {
     
     @objc func backButtonTap() {
         print("back tap/swipe")
+        SoundManager.shared.playSound(named: "click")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController

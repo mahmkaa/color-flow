@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C9ABCC8C3AB3FBDC152E0057 /* Pods_Color_Flow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E36CD6D9B9E1DF60010A582 /* Pods_Color_Flow.framework */; };
 		EA20CF4B2BCEE37500CF6A6B /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */; };
+		EA4A2FF42C8B804500318BFF /* luciferr.png in Resources */ = {isa = PBXBuildFile; fileRef = EA4A2FF32C8B804500318BFF /* luciferr.png */; };
 		EA4F9C392C514D7D003121E8 /* GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F9C382C514D7D003121E8 /* GameSettings.swift */; };
 		EA5E30CD29E1A8C00025BDBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */; };
 		EA5E30CF29E1A8C00025BDBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */; };
@@ -30,6 +31,8 @@
 		EAAE580B2C540FC700430EC8 /* ContinueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE580A2C540FC700430EC8 /* ContinueViewController.swift */; };
 		EAAE580D2C540FF600430EC8 /* ContinueViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAAE580C2C540FF600430EC8 /* ContinueViewController.storyboard */; };
 		EAAE580F2C54F76B00430EC8 /* GameEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAE580E2C54F76B00430EC8 /* GameEnums.swift */; };
+		EAD6AB392C8A12EC002FAC1C /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = EAD6AB382C8A12EC002FAC1C /* click.wav */; };
+		EAD6AB3B2C8A1BC8002FAC1C /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD6AB3A2C8A1BC8002FAC1C /* SoundManager.swift */; };
 		EAF28E1C2BC961F1002A8BD0 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */; };
 		EAF28E1E2BC9632C002A8BD0 /* LoadGameArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */; };
 		EAF28E202BC96B00002A8BD0 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */; };
@@ -40,6 +43,7 @@
 		26E2EBE58BDC46FFE4E9922A /* Pods-Color Flow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Flow.release.xcconfig"; path = "Target Support Files/Pods-Color Flow/Pods-Color Flow.release.xcconfig"; sourceTree = "<group>"; };
 		D63EEF542C425485885EFEA6 /* Pods-Color Flow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Color Flow.debug.xcconfig"; path = "Target Support Files/Pods-Color Flow/Pods-Color Flow.debug.xcconfig"; sourceTree = "<group>"; };
 		EA20CF4A2BCEE37500CF6A6B /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
+		EA4A2FF32C8B804500318BFF /* luciferr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = luciferr.png; sourceTree = "<group>"; };
 		EA4F9C382C514D7D003121E8 /* GameSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettings.swift; sourceTree = "<group>"; };
 		EA5E30C929E1A8C00025BDBB /* Color Flow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Color Flow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +67,9 @@
 		EAAE580A2C540FC700430EC8 /* ContinueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueViewController.swift; sourceTree = "<group>"; };
 		EAAE580C2C540FF600430EC8 /* ContinueViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContinueViewController.storyboard; sourceTree = "<group>"; };
 		EAAE580E2C54F76B00430EC8 /* GameEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnums.swift; sourceTree = "<group>"; };
+		EAD6AB372C8A0F26002FAC1C /* click.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = click.m4a; sourceTree = "<group>"; };
+		EAD6AB382C8A12EC002FAC1C /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
+		EAD6AB3A2C8A1BC8002FAC1C /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		EAF28E1B2BC961F1002A8BD0 /* GameLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		EAF28E1D2BC9632C002A8BD0 /* LoadGameArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGameArea.swift; sourceTree = "<group>"; };
 		EAF28E1F2BC96B00002A8BD0 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
@@ -130,6 +137,7 @@
 			children = (
 				EA5E30CC29E1A8C00025BDBB /* AppDelegate.swift */,
 				EA5E30CE29E1A8C00025BDBB /* SceneDelegate.swift */,
+				EAD6AB3A2C8A1BC8002FAC1C /* SoundManager.swift */,
 				EA5E30D029E1A8C00025BDBB /* ViewController.swift */,
 				EA5E30D229E1A8C00025BDBB /* Main.storyboard */,
 				EA7497432BDD256800AD8262 /* GameSettingsViewController.swift */,
@@ -151,7 +159,10 @@
 		EA63AAFA2BDBDB040079BF76 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EAD6AB372C8A0F26002FAC1C /* click.m4a */,
+				EAD6AB382C8A12EC002FAC1C /* click.wav */,
 				EA63AAF52BDBDB040079BF76 /* Assets.xcassets */,
+				EA4A2FF32C8B804500318BFF /* luciferr.png */,
 				EA63AAF62BDBDB040079BF76 /* back1.gif */,
 				EA63AAF72BDBDB040079BF76 /* backGif.gif */,
 				EA63AAF82BDBDB040079BF76 /* backWater.mp4 */,
@@ -241,11 +252,13 @@
 				EA63AAFB2BDBDB040079BF76 /* Assets.xcassets in Resources */,
 				EA5E30D429E1A8C00025BDBB /* Main.storyboard in Resources */,
 				EA63AAFF2BDBDB040079BF76 /* PIXY.ttf in Resources */,
+				EAD6AB392C8A12EC002FAC1C /* click.wav in Resources */,
 				EA7497482BDD3AAC00AD8262 /* GameSettingsViewController.storyboard in Resources */,
 				EA63AAFD2BDBDB040079BF76 /* backGif.gif in Resources */,
 				EA63AAFC2BDBDB040079BF76 /* back1.gif in Resources */,
 				EAAE580D2C540FF600430EC8 /* ContinueViewController.storyboard in Resources */,
 				EA63AAFE2BDBDB040079BF76 /* backWater.mp4 in Resources */,
+				EA4A2FF42C8B804500318BFF /* luciferr.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAAE580B2C540FC700430EC8 /* ContinueViewController.swift in Sources */,
+				EAD6AB3B2C8A1BC8002FAC1C /* SoundManager.swift in Sources */,
 				EA803FA12C52618000C74D06 /* GameSession.swift in Sources */,
 				EA20CF4B2BCEE37500CF6A6B /* TestClass.swift in Sources */,
 				EAAE186F2BC54DED00D8B292 /* GameArea.swift in Sources */,
@@ -469,8 +483,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Color Flow/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -499,8 +514,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Color Flow/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

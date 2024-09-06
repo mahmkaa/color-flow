@@ -47,8 +47,8 @@ class GameArea: UIViewController {
         return documentDirectory.appendingPathComponent("pvpGameSettings.json")
     }
     
-    let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
-    let colors1 = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"]
+    let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "red1"]
+    let colors1 = ["red1", "green1", "yellow1", "orange1", "pink1", "violet1"]
     
     let exit = UIButton(type: .system)
     let button = UIButton(type: .system)
@@ -655,7 +655,7 @@ class GameArea: UIViewController {
         let opponentColor = grid[gridSize - 1][gridSize - 1]
         
         // Массив цветов кнопок, соответствующий их порядку
-        let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"]
+        let colors = ["violet1", "pink1", "orange1", "yellow1", "green1", "red1"]
         
         // Обработка кнопок игрока
         for (index, button) in playerButtons.enumerated() {
@@ -918,6 +918,7 @@ class GameArea: UIViewController {
     //MARK: - selectors
     @objc func endExitButtonTap() {
         print("Button tapped")
+        SoundManager.shared.playSound(named: "click")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
@@ -935,6 +936,8 @@ class GameArea: UIViewController {
     
     @objc private func confirmExit() {
         print("tap exit")
+        SoundManager.shared.playSound(named: "click")
+        
         let storyboardSettings = UIStoryboard(name: "ContinueViewController", bundle: nil)
         let vc = storyboardSettings.instantiateViewController(withIdentifier: "ContinueViewController") as! ContinueViewController
         
@@ -970,8 +973,10 @@ class GameArea: UIViewController {
     
     //MARK: - colorButtonTap
     @objc func colorButtonTap(_ sender: UIButton) {
+        SoundManager.shared.playSound(named: "click")
+        
         let colorIndex = sender.tag
-        let colorName = ["violet1", "pink1", "orange1", "yellow1", "green1", "lime1"][colorIndex]
+        let colorName = ["violet1", "pink1", "orange1", "yellow1", "green1", "red1"][colorIndex]
 
         let startRow = 0
         let startColumn = 0
@@ -996,8 +1001,10 @@ class GameArea: UIViewController {
     }
 
     @objc func colorButtonTap1(_ sender: UIButton) {
+        SoundManager.shared.playSound(named: "click")
+        
         let colorIndex = sender.tag
-        let colorName = ["lime1", "green1", "yellow1", "orange1", "pink1", "violet1"][colorIndex]
+        let colorName = ["red1", "green1", "yellow1", "orange1", "pink1", "violet1"][colorIndex]
 
         let startRow = gridSize - 1
         let startColumn = gridSize - 1

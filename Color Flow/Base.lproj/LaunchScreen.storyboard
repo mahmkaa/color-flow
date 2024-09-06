@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,8 +15,27 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="luciferr.png" translatesAutoresizingMaskIntoConstraints="NO" id="ipH-5y-M3b">
+                                <rect key="frame" x="116" y="346" width="161" height="160"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by mahmkaa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c79-bH-1d5">
+                                <rect key="frame" x="148" y="514" width="97" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ipH-5y-M3b" firstAttribute="centerX" secondItem="c79-bH-1d5" secondAttribute="centerX" id="0kG-Qp-bFQ"/>
+                            <constraint firstItem="c79-bH-1d5" firstAttribute="top" secondItem="ipH-5y-M3b" secondAttribute="bottom" constant="8" symbolic="YES" id="8iL-1o-NiJ"/>
+                            <constraint firstItem="ipH-5y-M3b" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="EPe-nH-u6M"/>
+                            <constraint firstItem="ipH-5y-M3b" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="287" id="Oex-OS-LHi"/>
+                            <constraint firstItem="ipH-5y-M3b" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="mUH-pM-NFG"/>
+                            <constraint firstItem="ipH-5y-M3b" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="116" id="sDJ-oI-SeB"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -26,8 +44,6 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="luciferr.png" width="1024" height="1024"/>
     </resources>
 </document>
